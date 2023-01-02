@@ -10,6 +10,32 @@
 
 In the field of artificial intelligence (AI), a version space is a representation of the set of possible hypotheses or theories that are consistent with a given set of data. It is a way of representing uncertainty about the underlying structure or relationships in the data, and can be used to make inferences or predictions based on new data.
 
+In general $h_i>_gh_j \iff P_j \subset P_i \and N_i \subset N_j $
+
+Where $h_i$ is hypotheses $i$ and $h_j$ is hypotheses $j$, $P$ are the positive instances of that hypotheses and $N$ are the negative instances of that hypotheses. In words this mean that hypothese $i$ is more general than $h_j$ if all the positive instances of $j$ are a subset of $i$ and all the negative instances of $i$ are subset of $j$.
+
+Now an example to demonstrate when an instance will be positive, negative or we don't know
+
+Given:![image-20221231111737352](img/image-20221231111737352.png)
+
+To classify a positive instance we start at the most general side and work our way to the most specialized side.
+
+An instance will be positive when $h_3$ and $h_4$ classify it as positive because each hypotheses in the VS is more general than $h_3$ and $h_4$ as you can see in the image so that means that every hypotheses has classified the instance as positive. So the VC classifies them as positive.
+
+To classify a negative instance we start the most specialized side and work our way to the most specialized side.
+
+In instance will be negative when $h_1$ and $h_2$ classify it as negative because each hypothese in the VS is more specialized than $h_1$ and $h_2$ as you can see in the image so that means that every hypotheses has classified the instance as negative. So the VC classifies them as negative.
+
+All remaining instance are classified as "Don't know".s The remaining instances are classified as negative by $h_3$ or $h_4$, and since this $h_i$ might in principle be the correct one (since it is in VS), each such instance might be negative. Similarly, these instances are classified as positive by $h_1$ or $h_2$, so each such instance might also be positive.
+
+![image-20221231115737209](img/image-20221231115737209.png)
+
+In Figure 4, instances in the region marked by the black square are classified as negative
+
+ 					Instances in the region marked by the black circle are classified as positive.
+
+​					 instances in the region marked by the black triangle are classified as positive by h1, h, 						h2, and h4, but as negative by h3.
+
 ### 1.3 Decision trees
 
 A decision tree is a type of machine learning algorithm that is used to make predictions or decisions based on a set of data. It works by constructing a tree-like model of decisions and their possible consequences, including chance events and costs.
@@ -46,6 +72,95 @@ A regression tree is a type of decision tree that is used for predicting a conti
 
 
 
+## Exercise Session 2
+
+### 2.1 Rule Induction
+
+The LearnOneRule algorithm is machine learning method that is used to learn a single rule from a given dataset. The algorithm works by selecting a candidate literal(variable) from the possible candidate literals and splitting the data based on that literal. It does this for every literal and then chooses the one that leads to the greatest information gain. This process is repeated until a stopping condition is reached. 
+
+The top down variant of the algorithm start with a maximally general rule that has high coverage but low accuracy. We then start adding literals one by one to gradually increase the accuracy. 
+
+The bottom-up approach the algorithm starts with maximally specific rule that has high accuracy but low coverage and then removes literals on by one to gradually increase the coverage. This algorithm is prone to overfitting.
+
+For the following table a candidate literal would be temp=mild or hum = norm.
+
+![image-20221231170859902](img/image-20221231170859902.png)
+
+There is a variant called example-driven 
+
+### 2.3 Voronoi Maps
+
+A voronoi map is construct that divides a plane into regions based on the distance of a set of points (seed points) . Each region is defined by the nearest point and consists of all the points that are closest to that seed point. Below an example.
+
+![image-20230102133640063](img/image-20230102133640063.png)
+
+A decision surface is similar to a Voronoi map but instead of working with singular seed points it sets a boundary or hyperplane to separate classes of points, in the following example it separates positive and negative points in space.
+
+![image-20230102133816217](img/image-20230102133816217.png)
+
+
+
+### 2.4 Clustering
+
+Clustering is an example of unsupervised learning because we are just grouping similar data together and not trying to make predictions about new data. We have 2 kinds of clustering
+
+1. **Flat or parititional clustering** returns a partition of data, each element belongs to exactly one group ![image-20230102141740841](img/image-20230102141740841.png)
+
+2. **Hierarchical clustering** returns a hierarchy of clusters (**taxonomy**). So a point belongs to a large group but also to a subgroup of that larger group.![image-20230102141925387](img/image-20230102141925387.png)
+
+   We can still turn a taxonomy into flat clustering by cutting along one level as you can see above.
+
+Within these 2 kinds of clustering we also have different approaches to clustering.
+
+- **Extensional clustering** is a type of clustering that we all know where we base the clustering on actual attributes of the data points. For example you are given the age, income and spending habits and now want to cluster the customers based on the values of their age and income. K-means could be used for this. Not to be confused with kNN which is supervised learning.
+- **Conceptual learning** is a type of clustering that is based on the underlying concept or structure of the data. For example you are given the names of the products that customers by in a store. You want to use this data to cluster the customers into groups based on their purchasing habits. Example:![image-20230102152803579](img/image-20230102152803579.png)
+
+**K-means clustering** is an example of flat extensional clustering. Given k, attempts to form k-clusters such that the sum of mean squared distances within the clusters is minimized. It works as follows:
+
+Given dataset X, k numbers clusters
+
+1. Choose k random seeds (points in X)
+2. Assign each instance to the cluster of its closest seed
+3. redefine the seeds to the center of the current cluster
+4. Repeat this until nothing changes anymore
+
+![image-20230102143718028](img/image-20230102143718028.png)
+
+![image-20230102143731971](img/image-20230102143731971.png)
+
+![image-20230102143747957](img/image-20230102143747957.png)
+
+![image-20230102143833095](img/image-20230102143833095.png)
+
+![image-20230102143851046](img/image-20230102143851046.png)
+
+**Hierarchical extensional clustering** has another subdivision methods
+
+Top-down (divisive) methods
+
+- Start with 1 cluster
+- divide into subsets
+- subdivide subets
+
+Bottom-up (agglomerative) methods
+
+- Start with singleton clusters
+- join closest clusters together
+- repeat until 1 cluster
+- Example
+  - **Single Linkage**: distance between clusters = distance between closest points
+  - **Complete** **linkage**: cluster distance = distance between furthest points
+
+
+
+#### **Similarity measure?**
+
+Clustering relies strongly on defining an appropriate similarity measure. This can be hard because we can recognize similarity when we see it but we cannot always define it in terms of features. For example:![image-20230102154524660](img/image-20230102154524660.png)
+
+**Solution?** Semi-supervised learning
+
+Computers learn the similarity from examples of pairs of instance that should be in the same/different clusters.
+
 ## Exercise Session 3
 
 
@@ -59,6 +174,10 @@ A confidence interval is a range of values that is likely to contain the true va
 ![image-20221220185301542](img/image-20221220185301542.png)
 
 We get 0.04 by (0.8 * (1-0.8))/100
+
+This only works for independent sets
+
+
 
 **2.**
 
@@ -88,7 +207,13 @@ A receiver operating characteristic (ROC) curve is a useful tool for comparing t
 
 ![image-20221221130214037](img/image-20221221130214037.png)
 
+The **convex hull** of the set is the line is hard to explain so just look at the image.![image-20230102202824204](img/image-20230102202824204.png)
+
+A sort of rubber band that spans the best classifiers of the set. [Click here](https://stats.stackexchange.com/questions/120361/what-is-the-convex-hull-in-roc-curve)
+
 ### 3.3 VC Dimension
+
+The VC-dimension of a hypothesis space **H** defined over instance space **X**, is the size of the largest finite subset of X shattered by **H**. 
 
 The VC dimension of a hypothesis space is a measure of the capacity of the classifier. It is defined as the maximum number of points that can be separated into two classes by the classifier in all possible ways. A hypothesis space with a high VC dimension is more flexible and can "memorize" the training data better, but it is also more prone to overfitting. A hypothesis space with a low VC dimension is less flexible and may not be able to capture the underlying patterns in the data, leading to underfitting. The VC dimension is a useful concept in understanding the bias-variance tradeoff in supervised learning.
 
@@ -111,6 +236,10 @@ For any subset of these points, we can find a rectangle R in the hypothesis spac
 - For the subset {A, B, C}, the rectangle R = [(0,0), (0,1), (1,1), (1,0)] can perfectly classify the points A, B, and C.
 
 Therefore, the VC dimension of this hypothesis space is at least 3, because we were able to find a set of 3 points in the instance space that can be perfectly classified by any subset of these points using a rectangle R in the hypothesis space.
+
+**Shattering:** The concept of shattering refers to the ability of a model to perfectly classify a dataset. A set of instances is considered shattered if there is a hypothesis that predicts exactly these labels.
+
+![image-20230102205438268](img/image-20230102205438268.png)
 
 
 
@@ -247,13 +376,13 @@ In the context of machine learning, the principle of relative least generalizati
 
 
 
-## Terms and concepts used on exam
+## Important terms and concepts
 
 - **Predictive learning:** Predictive learning is a type of learning that involves building a model to predict certain things given some input data. 
 - **Descriptive learning:** Descriptive learning is a type of learning that instead of trying to predict something we are going to be describing or summarizing the characteristics of large data sets
 - **Supervised learning: ** Supervised learning is a type learning where we are gonna build a model based on labeled training data. The goal is to be able to make accurate predictions given some input.
 - **Unsupervised learning:** Unsupervised learning is a type of learning where the model is given data but it is not labeled. The goal is not be able to make predictions but to find patterns or relationships in data.
-- **Semi-supervised learning:** Semi-supervised learning is similar to supervised learning except that we are building a model based on both labeled and unlabeled data. The goal is to be able to make predictions given some unseen data. It is used when it hard to get a large labeled dataset.
+- **Semi-supervised learning:** Semi-supervised learning is similar to supervised learning except that we are building a model based on both labeled and unlabeled data. The goal is to be able to make predictions given some unseen data. It is used when it's hard to get a large labeled dataset.
 - **Classification:** classification is a type of machine learning where the goal is to able to predict a label for a given input data. Labels are categorical values that represent different classes. Example, classification task to predict the type of animal in photo, cat, dog, bird.
 - **Regression:** regression is a type of machine learning task in which the goal is to predict a continuous numerical value based on a set of input data.
 - **Clustering:** clustering is grouping data points with similar attributes into clusters. (ex. k-means clustering)
@@ -266,9 +395,27 @@ In the context of machine learning, the principle of relative least generalizati
 - **Support vector machines:** A support vector machine are a type of machine learning used for classification and regression. It works by finding the hyperplane, the plane that maximally divides the separate classes. Because this might not always be possible in the current dimension, the old points could be converted to a higher dimension where a plane might exist.
 - **Nearest neighbour methods:** this is a type of machine learning where new data points are classified based on what the nearest neighbours are classified as.
 - **Q-learning:** is a type of reinforcement learning where we add a Q-function which estimates the maximum expected future rewards for each possible action. So less the environment rewards and more Q-function
-- **Inductive logic programming:** is a type of machine learning that tries to learn logical rules from the given data set and then tries to makes predictions about new data given those rul
+- **Inductive logic programming:** is a type of machine learning that tries to learn logical rules from the given data set and then tries to makes predictions about new data given those rules.
+- **Lazy vs eager learners**
+  - Lazy learners such as kNN don't build a model during training, merely store data. Start doing the hard work when asked a question (usually unsupervised learning)
+  - Eager learners such as regression generalize before knowing the question. They try to build a global model that will work under all circumstances
+
+- **Mean squared error (MSE)** is a measure of difference between a set of predicted values and the corresponding actual values. It is commonly used in regression, where the goal is to predict a continuous output value based on a set of input features. The MSE is calculated as the average of the squared difference between the predicted values and the true values. It is defined as :
+  **MSE =** $\frac{1}{n}*\sum^n_{i=0}(y_i-\hat{y}_i)^2$
+  Where $y_i$ is the true value of $i$-th data point, $\hat{y}_i$ is the predicted value of the data point and n is the total number of data points.
+- **Accuracy** = the probability of a correct prediction on a randomly drawn instance; **Error** = 1 - accuracy
+- Review exercise 3.1 of the exercise session 3
+- Review exercise 3.2 of the exercise session 3
+- 
+
+### Supervised learning
+
+- **Regression** is supervised learning because it needs an input and output for each instance so it can learn from it. This allows it make predictions about new data for which the output is not known. The "output" in this case will be the "label". For example, you give it houses with the amount of rooms, bathrooms and size, you also give it the price of the house. Given a few examples of those, when we apply regression we will now be able to make predictions of the price of new houses. The price in this case would be the label.
+- **Classification** is supervised learning because we are also given labeled data and we want to make predictions about new data. For example given a few data points labeled + and -, we could use kNN to classify new data points.
 
 
 
+### Unsupervised learning
 
+- **Clustering** is unsupervised learning because we aren't trying to make predictions about new data but just putting similar data in groups.
 
