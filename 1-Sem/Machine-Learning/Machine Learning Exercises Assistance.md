@@ -213,7 +213,11 @@ A sort of rubber band that spans the best classifiers of the set. [Click here](h
 
 ### 3.3 VC Dimension
 
-The VC-dimension of a hypothesis space **H** defined over instance space **X**, is the size of the largest finite subset of X shattered by **H**. 
+The VC-dimension of a hypothesis space **H** defined over instance space **X**, is the size of the largest finite subset of X shattered by **H**. For example, in case of linear separators (straight lines) in $\R^2$ (two dimensional euclidean space), the VC-dimension is 3. To understand this, consider a straight line in $\R^2$ that is used to divide the space into two regions. The line can be defined by two points on the line. Given three points, it is always possible to find a straight line that passes through two of points and correctly separates the third point from the other two points. 
+
+However if a fourth point is added, it may not be possible to find a straight line that correctly separates all four points. In general for $x \in R^d$, the VC dimension for a linear classifier is $d+1$
+
+For example consider the points (0,0),(0,1),(1,0),(1,1) with label [+,-,-,+]. We cannot draw a single line to correctly classify all points. If we only had the first three points we could.
 
 The VC dimension of a hypothesis space is a measure of the capacity of the classifier. It is defined as the maximum number of points that can be separated into two classes by the classifier in all possible ways. A hypothesis space with a high VC dimension is more flexible and can "memorize" the training data better, but it is also more prone to overfitting. A hypothesis space with a low VC dimension is less flexible and may not be able to capture the underlying patterns in the data, leading to underfitting. The VC dimension is a useful concept in understanding the bias-variance tradeoff in supervised learning.
 
@@ -239,7 +243,7 @@ Therefore, the VC dimension of this hypothesis space is at least 3, because we w
 
 **Shattering:** The concept of shattering refers to the ability of a model to perfectly classify a dataset. A set of instances is considered shattered if there is a hypothesis that predicts exactly these labels.
 
-![image-20230102205438268](img/image-20230102205438268.png)
+![image-20230102205608001](img/image-20230102205608001.png)
 
 
 
@@ -406,7 +410,7 @@ In the context of machine learning, the principle of relative least generalizati
 - **Accuracy** = the probability of a correct prediction on a randomly drawn instance; **Error** = 1 - accuracy
 - Review exercise 3.1 of the exercise session 3
 - Review exercise 3.2 of the exercise session 3
-- 
+- **PAC-learnability (Probably Approximately Correct learnability)** is a concept that refers to the ability of a learning algorithm to accurately learn the underlying structure of a dataset with a high probability.
 
 ### Supervised learning
 
@@ -419,3 +423,8 @@ In the context of machine learning, the principle of relative least generalizati
 
 - **Clustering** is unsupervised learning because we aren't trying to make predictions about new data but just putting similar data in groups.
 
+### Loss functions
+
+Consider learning a function $f$ from the data. We make $f$ fit the training data, in the hope that it will "fit" the whole population but what do we mean by "fit". We express this using **loss** and **risk**.
+
+The loss function $l$ expresses the quality of a prediction: the higher the loss, the worst the prediction. In practice we optimize the fit on a training set T, not on the population so minimizing the loss during training may cause overfitting. That's why we use a variant that guards against overfitting, we call this **regularization**.
