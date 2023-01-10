@@ -119,7 +119,7 @@ For example, you got a coin and you say that the prior probability of the coin l
 
 Using Bayes' theorem, you compute the posterior probability of the hypothesis. In this case you see that the coin is not fair because your posterior probability is lower than your prior.
 
-
+![image-20230105162822581](img/image-20230105162822581.png)
 
 **The Max Likelihood assignment**
 
@@ -255,14 +255,69 @@ Two graphs are **Markov equivalent** if they both represent the same set of cond
 **Method:**
 
 1. For proving that the given graph is not a **dependence** map, we need to find if an element from $L_p$ that does not belong to $L_g$, $L_p \not\subseteq L_g $
-
 2. For proving that the given graph is not a **independence** map, we need to find if an element from $L_g$ that does not belong to $L_p$, $L_g \not\subseteq L_p$
-
 3. For proving that the given graph is not a perfect map, it is sufficient to prove either of the above.
 
-   
+
+
+## Learning from fully observable data
+
+**Maximum likelihood (ML)**
+
+The maximum likelihood is method to estimate the parameters given some observation. So it estimates the parameters that are most likely to give the given observation
+
+The Max Likelihood assignment
+
+- $\theta_* = argmax_{\theta}p(D|\theta,M)$
+
+
+
+**Maximum a posteriori (MAP)** estimation is a method for estimating the para
+
+The MAP assignment (mode of posterior)
+
+- $\theta_* = argmax_{\theta}p(\theta|D,M)$
+
+**Important to know**
+
+(can be found on exercise session 5)
+
+![image-20230105165453649](img/image-20230105165453649.png)
+
+The MAP estimates for a binomial with Beta priors are computed as
+
+$\theta_{MAP} = arg~max_{\theta} p(\theta|D) = \frac{\#H+ \alpha -1}{\#H+\#T + \alpha + \beta -2}$
+
+
+
+
+
+## Logic and probability
+
+**Decomposable**
+
+A circuit is said to be decomposable if the conjuncts do not share any variables (conjuncts = and).
+
+**Deterministic**
+
+A circuit is said to be deterministic if the disjuncts are logically disjoint, meaning the two children of an **OR** node cannot be true at the same time (XOR basically)
+
+**Smooth**
+
+A circuit is said to be smooth if the disjuncts have the same set of variables, not considering the $\theta$ ones.
+
+
+
+## Lecture 10 Approximate inference
+
+### Sampling
+
+Sampling is the process of picking out random samples of a group to make predictions about a popu
 
 ## Recheck exercises
 
 - Exercise 4,6,7, exercise session 1
 - Exercise 2.2, exercise session 2
+- All exercises of session 4
+- All exercises of session 5
+- 
