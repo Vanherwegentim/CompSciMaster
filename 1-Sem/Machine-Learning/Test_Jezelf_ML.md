@@ -88,23 +88,63 @@
 4. How is Boosting different from Bagging in ensemble learning?
    1. Boosting is using a weighted data set to train a learner. When give more weights to the predictions that were incorrect and feed again into a learner. So new hypotheses will focus on these examples. ADABOOST
 5. Can you explain the process of Stacking in ensemble learning?
-   1. Stacking is a method for combing multiple models to improve perforamce. It involves training several models and then using these models to train a meta model that learns how to best combine the outputs of the base models to make pr
+   1. Stacking is a method for combing multiple models to improve perforamce. It involves training several models and then using these models to train a meta model that learns how to best combine the outputs of the base models to make predictions
 6. How does Planning differ from Behavioral Cloning and Reinforcement Learning in terms of learning a policy?
-   1. We build a plan that reaches the desired state
+   1. We build a plan that reaches the desired state, unfortunately this requires a full model of the environment
 7. Can you explain the concept of behavioral cloning in reinforcement learning?
+   1. The agent learns how to traverse the environment from a teacher, unforunately this means that the agent can barely do better than the teacher and is prone to overfitting
 8. How does the principle of reinforcement learning differ from other forms of learning?
+   1. We let the agent run free in the environment but reward good behavour and punish bad
 9. What is the complete algorithm for Policy Iteration in reinforcement learning?
+   1. Policy evaluation -> policy improvement -> policy evaluation
 10. What is the generalization process in reinforcement learning, specifically in Q-learning?
+    1. Generalization in reinforcement learning is a problem. In Q-learning we can have millions of state-action pairs with some Q-values. This is too much data. So what we do we create a lot less and then feed these pairs with Q-values into a learner that creates a model that can predict the Q-value for a a certain input.
 
-
+​		
 
 1. What is the difference between association rules and classification rules?
+
+   1. Assocation rules are meant to describe the underlying patters or relationship. Classification rules are meant predict an output given some input
+
 2. What is the APRIORI algorithm and how is it used in association rules?
+
+   it is an example
+
 3. How does the k-NN algorithm classify a new instance?
+
+   1. the k-nn algorithms uses the similarty of data points. Given a new data points it will find the k nearest data points and then classify it depending on those.
+
 4. What is the curse of dimensionality and how does it affect k-NN?
+
+   1. The curse of dimensionality is that its very hard to classify things in higher dimension because they are not intuitive and data points could spread very far from each other. k-NN does not perform well in high dimensions
+
 5. What is a ROC analysis and how is it used in evaluating a classifier?
-6. How does sample complexity differ when the learner proposes instances versus the teacher providing both instances and labels?
-7. What is meant by "learner is PAC-learnable"?
-8. How is ROC analysis used in case of numerical values instead of nominal values?
-9. What is the difference between correlation and accuracy in evaluating a classifier?
-10. How is the sample complexity related to the VC-dimension of a hypothesis space?
+
+   1. ROC analysis is the comparing of different classifiers based some threshold and the TP and FP
+
+6. What does PAC stand for?
+
+   1. probably approximately correct
+
+1. What is the definition of shattering and what does it tell us about a hypothesis space?
+   1. A hypothesis space H shatters a set of instances T, if for whatever labeling, there exists a hypothesis in H a that shatters that labeling.
+2. What is the definition of VC-dimension and how does it relate to a hypothesis space?
+   1. The VC-dimension is the cardinality of the largest set of points that is shattered by H
+3. What is the upper bound for VC-dimension in terms of the size of a hypothesis space?
+   1. Upper bound vc dimension $VC(H) \le log_2(|H|)$ and if a hypothesis H shatters a T with n points then that H contains at least $2^n$ hypotheses
+
+
+
+
+
+1. What is the purpose of the LearnOneRule algorithm?
+   1. learn a ruleset from a dataset to be able to make predictions about new data
+2. How does the top-down variant of the LearnOneRule algorithm work?
+   1. The top-down variant grabs the most general instance in the training data and uses this to start from, it then goes over all the other instance in the set and improves the accuracy while keeping the same coverage
+3. How does the bottom-up variant of the LearnOneRule algorithm differ from the top-down variant?
+   1. Instead of starting with the most general rule, it start with the most specialized rule and then goes over all the instances while holding the same accuracy and increasing coverage.
+4. What is RIPPER?
+   1. Currently of the best ruleset learners
+5. What is the m-estimate of a rule and how is it calculated?
+   1. The accuracy rule that predicts class C is p/(p+n) with p = #positives and n#negatives
+   2. The m-estimate of a rule is $p+mq/(p + n + m)$

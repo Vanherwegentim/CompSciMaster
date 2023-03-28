@@ -24,7 +24,7 @@ An instance will be positive when $h_3$ and $h_4$ classify it as positive becaus
 
 To classify a negative instance we start the most specialized side and work our way to the most general side.
 
-In instance will be negative when $h_1$ and $h_2$ classify it as negative because each hypothese in the VS is more specialized than $h_1$ and $h_2$ as you can see in the image so that means that every hypotheses has classified the instance as negative. So the VC classifies them as negative.
+In instance will be negative when $h_1$ and $h_2$ classify it as negative because each hypothese in the VS is more specialized than $h_1$ and $h_2$ as you can see in the image so that means that every hypotheses has classified the instance as negative. So the VS classifies them as negative.
 
 All remaining instance are classified as "Don't know".s The remaining instances are classified as negative by $h_3$ or $h_4$, and since this $h_i$ might in principle be the correct one (since it is in VS), each such instance might be negative. Similarly, these instances are classified as positive by $h_1$ or $h_2$, so each such instance might also be positive.
 
@@ -148,8 +148,8 @@ Bottom-up (agglomerative) methods
 - join closest clusters together
 - repeat until 1 cluster
 - Example
-  - **Single Linkage**: distance between clusters = distance between closest points
-  - **Complete** **linkage**: cluster distance = distance between furthest points
+  - **Single Linkage**: distance between clusters = shortest distance between closest points
+  - **Complete** **linkage**: cluster distance = shortest distance between furthest points
 
 
 
@@ -437,7 +437,7 @@ robots could be designed with multiple layers of control, with each layer respon
 
 Now for the exercise. The theta-subsumption is way of ordering logical clauses or rules in artificial intelligence and logic programming. It based on the idea that one clause subsumes another if it is more general and can be used to derive all the conclusions of the subsumed clause.
 
-If a set 1 can be turned into set 2 by replacing some variables, then set 2 subsumes set 1.
+If a set 1 can be turned into set 2 by replacing some variables, then set 1 subsumes set 2.
 
 Now for the exercise
 
@@ -521,7 +521,9 @@ Consider learning a function $f$ from the data. We make $f$ fit the training dat
 
 The loss function $l$ expresses the quality of a prediction: the higher the loss, the worst the prediction. In practice we optimize the fit on a training set T, not on the population so minimizing the loss during training may cause overfitting. That's why we use a variant that guards against overfitting, we call this **regularization**.
 
-### Linear regression
+Regularization is a technique used to prevent overfitting by adding a term to the loss function tat penalized certain model paramters if they take on large values. The idea is that by adding this term the model will be encourgaed to learn paramters value that lead smaller overall loss, even if this means sacrificing a bit of accuracy on the training set.
+
+
 
 
 
@@ -661,14 +663,14 @@ Overfitting happens when a model goes too far with its specificity so it doesn't
 
 How do we avoid it?
 
-1. **Cautious splitting:** Do not split a node unless you are certain that the split meaningful. A simple approach to this is to have a validation set and to check with that set if the accuracy has gone down when you've added a new branch
+1. **Cautious splitting:** Do not split a node unless you are certain that the split is meaningful. A simple approach to this is to have a validation set and to check with that set if the accuracy has gone down when you've added a new branch
 2. **Post-pruning:** Don't think about overfitting but once the tree has been built, prune branches that do not contribute much. Post-pruning requires more effort.
 
 
 
 ### Expressiveness
 
-An expressive model is a model that effectively can represent complex concepts. This is often desired but it is important to balance this with other factors because a highly expressive model may be very hard to train and very complex.
+An expressive model is a model that effectively can represent complex concepts. This is often desired but it is important to balance this with other factors because a highly expressive model may be very hard to train and very complex. Generally, we can assume that the more hypotheses a hypothesis space contains, the more expressive it is.
 
 
 
@@ -721,7 +723,7 @@ Sidenote: This is evalution for nominal values but what do we do for numerical v
 
 
 
-### Sample complexity and VC-dimension
+### Sample complexity
 
 How many examples needed for learning? depends on how they are chosen, some options:
 
@@ -729,7 +731,33 @@ How many examples needed for learning? depends on how they are chosen, some opti
 2. teacher provides both x and f(x)
 3. instances x are provided randomly, teacher provides f(x)
 
-H is PAC-learnable <=> VC(H) is finite
+
+
+### PAC-learnability
+
+**PAC** stands for probably approximately correct. It assumes examples are drawn randomly, therefore can never guarantee it will find a correct hypothesis because the sample may be highly unrepresentative. That's why we "relax" the learning, learner should find an approximately correct hypothesis. Formally:
+
+Return with probability $\ge 1-δ$ a hypothesis with accuracy $\ge 1 -ε$.
+
+So if we want VS to be $ε$-exhausted with probability $1-δ$, we need $|H|e^{-ε|T|}$ $≤ δ$ and hence $|T| ≥ 1/ε(ln|H| + ln(1/δ))$
+
+The minimal numbers of examples $N$ that a PAC-learning algorithm needs to see to guarantee that the learned hypothesis is $\epsilon$-correct with probability at least $1-\delta$ is called the sample complexity of a concept class.
+
+
+
+### Shattering
+
+A hypothesis space $H$ shatters a set of instance $T$, if for whatever the labeling (positive/negative) of the elements of $T$ is, $H$ always contains a hypothesis that is consistent with $T$
+
+if $H$ shatters a set of $n$ points, then $H$ must contain at least $2^n$ hypotheses.
+
+### VC-dimension
+
+The **vc-dimension** of a hypothesis space $H$ is the cardinality of the largest set of points that is shattered by $H$.
+
+Upper bound **VC-dimension**: $VC(H)\le log_2(|H|)$
+
+Linear separators in an $n$-dimension space have a VC-dimension of $n+1$ 
 
 
 
@@ -753,7 +781,7 @@ The neuron when the sum of weighted inputs > some threshhold
 
 **k-input perceptron**
 
-In general a perceptron constructs a hyperplane in k-dimension to split the data (+ on one side and - on the other) but if the class is not linearly separable the perceptron cannot separate it. Our solution: **multi-layer perceptrons**. By connections multiple neurons we get more complex models. An MLP is not restricted to linear separations. MLPs are universal approximators, they can approximate any function.
+In general a perceptron constructs a hyperplane in k-dimension to split the data (+ on one side and - on the other) but if the class is not linearly separable the perceptron cannot separate it. Our solution: **multi-layer perceptrons**. By connecting multiple neurons we get more complex models. An MLP is not restricted to linear separations. MLPs are universal approximators, they can approximate any function.
 
 The **Threshhold** function we saw before in a single neuron is often replaced by a **sigmoid** function. The changes are continuously instead of a jump as before. This has advantages in multi-layer networks.
 
