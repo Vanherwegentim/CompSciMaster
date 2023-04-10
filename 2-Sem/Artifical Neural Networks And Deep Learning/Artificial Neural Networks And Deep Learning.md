@@ -120,7 +120,7 @@ A **Hessian matrix** is a tool used in optimization to help understand how a fun
 
 #### 2.1.2 Levenberg-Marquardt method
 
-The method is an again an optimization algorithm commonly used for nonlinear least square problems, including neural network training. It combines the advantages of both **steepest descent (gradient descent)** and the **Gauss-Newton** methods, making it more efficient that either method alone. The method is widely used in neural network training because it is efficient, converges quickly and is less sensitive to initialization conditions and local minima.
+The method is again an optimization algorithm commonly used for nonlinear least square problems, including neural network training. It combines the advantages of both **steepest descent (gradient descent)** and the **Gauss-Newton** methods, making it more efficient that either method alone. The method is widely used in neural network training because it is efficient, converges quickly and is less sensitive to initialization conditions and local minima.
 
 
 
@@ -130,7 +130,7 @@ Quasi-Newton methods are a class of optimization algorithms that approximate the
 
 The **BFGS** algorithm maintains an approximation of the inverse Hessian matrix. Compared to the steepest descent and newton methods, the algorithm is more efficient and can converge faster. It has the advantage of avoiding the need to compute the exact Hessian matrix which is computationally expensive and difficult to compute.
 
-We can improve on the **BFGS** by avoiding the direct inversion f the Hessian matrix by using the **Davidon-Fletcher-Powell formula**. This will result into a superlinear speed of convergence.
+We can improve on the **BFGS** by avoiding the direct inversion of the Hessian matrix by using the **Davidon-Fletcher-Powell formula**. This will result into a superlinear speed of convergence.
 
 
 
@@ -290,4 +290,75 @@ TODO
 
 ### 6.1 Motivation
 
-When using neural networks like we previously discussed we want to keep the cost function as low as possible but doing this opens us up to a lot of traps like local minima solution and the problem of choosing the number hidden units. **SVMs** which work with kernel-based representations don't have this problem. **SVMs** work well in high-dimensional input spaces and have been successfully applied to many real-life problem.
+When using neural networks like we previously discussed we want to keep the cost function as low as possible but doing this opens us up to a lot of traps like local minima solution and the problem of choosing the number hidden units. 
+
+![image-20230328120938521](img/image-20230328120938521.png)
+
+​				*Drawbacks of classical neural networks: (Left) problem of number of hidden units*;
+​																					*(Right) existence of many local minima solutions*
+
+**SVMs** which work with kernel-based representations don't have this problem. **SVMs** work well in high-dimensional input spaces and have been successfully applied to many real-life problem.
+
+
+
+### 6.2 Maximal margin classifiers and linear SVMs
+
+#### 6.2.1 Margin
+
+In the figure below you can see a separable problem in a two-dimensional feature space. There exist several separating hyperplanes that separate the data. An **SVM** finds one unique separating hyperplane. This is done by maximizing the distance to the nearest points of the two classes. ![image-20230328122755361](img/image-20230328122755361.png)
+
+​			*(Top) separable problem where the separating hyperplane is not unique;*
+​			*(Bottom) definition of a unique hyperplane which is maximizing the distance to the nearest 				point*
+
+
+
+According to Vapnik (the guy from the VC Vapnik-Chervonenkis dimension), one can then do a rescaling of the problem. The scaling is done such that the point closest to the the hyperplane has a distance $1/||w||_2$. The *margin* between the classes is then equal to $2/||w||_2$. Maximizing the margin corresponds then to minimizing $||w||_2$.
+
+
+
+![image-20230328122941214](img/image-20230328122941214.png)
+
+#### 6.2.2 Linear SVM classifier: separable case
+
+The training set is defined as a set of input patterns and output patterns with class labels of either -1 or +1. The SVM classifier is formulated as an optimization problem with constraints that ensure the classifier correctly separates the two classes. The Lagrangian is introduced as a way to solve this optimization problem, with Langrange multipliers serving as support values. A drawback of this approach is that the problem matrix size grows with the number of data points, making it infeasible for large datasets.
+
+
+
+#### 6.2.3 Linear SVM classifier: non-separable case
+
+For most real-life problems, when taking a linear classifier, not all the data points of the training set will be correctly classified unless the true underlying problem is perfectly linearly separable.
+
+![image-20230328143234855](img/image-20230328143234855.png)
+
+The optimization problem for the non-separable case is formulated as a minimization problem with a hinge loss function that penalizes misclassifications. The optimization problem now also includes a term that controls the degree of misclassification allowed, which is represented by a parameter C. This parameter controls the trade-off between achieving a large margin and tolerating misclassifications. A small value of C allows for more misclassifications but results in a larger margin, while a large value of C results in fewer misclassifications but a smaller margin.
+
+
+
+
+
+## 6.3 Kernel trick and Mercer condition
+
+Important progress in **SVM** theory has been made thanks to the fact that the linear theory has been extended to nonlinear models. In order to achieve this, one maps the input data into a high dimensional feature space.  This is achieved using the kernel trick, which states that there exists a mapping ϕ and an expansion if and only if the kernel is positive definite. By choosing a kernel function, computations in the huge dimensional feature space can be avoided. The RBF kernel has infinite dimensions while the linear and polynomial kernels have finite dimensions.
+
+![image-20230328145209511](img/image-20230328145209511.png)
+
+### 6.4 Nonlinear SVM classifiers
+
+The non-linear SVM approach is based on the idea of mapping the input data to a higher dimensional feature space, where a linear decision boundary can be used to separate the classes. However, it is often difficult to find an appropriate mapping function that can accurately capture the underlying structure of the data.
+
+To overcome this problem, we use kernel functions which allow for efficient computation of the dot product in high dimensional feature space without the need for explicit mapping. The most commonly used kernel functions are the **Gaussian radial basis function (RBF)** kernel and the polynomial kernel.
+
+![image-20230328150707418](img/image-20230328150707418.png)
+
+
+
+### 6.5 SVMs for function estimation
+
+#### 6.5.1 SVM for linear function estimation
+
+Same thing as we saw before. **SVMs** can be used to find a linear function that approximates the underlying relationship between input and output data. **SVMs** can be used to solve this problem bij finding the optimal hyperplane that maximizes the margin between the positive and negative examples.
+
+
+
+#### 6.5.2 SVM for nonlinear function estimation
+
