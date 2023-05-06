@@ -152,3 +152,99 @@ Cross-validation is variant of validation meaning that we will have 2 different 
 
 **Explain complexity criteria.**
 
+Complexity criteria refers to the methods used to determine the optimal level of complexity or size for your model to balance overfitting and generalization. TODO?
+
+
+
+#### Question 4
+
+**Discuss pruning algorithms.**
+
+The pruning algorithms are Optimal Brain Damage and Optimal Brain Surgeon(I think, maybe weight elimination also?). OBS has better performance than OBD. OBD completely removes the neuron from the network while OBS just sets the weight to 0, removing the influence of the neuron. This helps to maintain structural integrity.
+
+
+
+#### Question 5
+
+**Explain the committee networks method.**
+
+This method is instead of taking one model and training, we take several and combine them to make a sort of committee of networks. This committee of networks can outperform the best single network. This comes with a few disadvantages because we need to train a lot more.
+
+
+
+
+
+### Lecture 5
+
+#### Question 1
+
+**Explain the Occam’s razor principle.**
+
+Occam's razors says that the simplest explanation should be the one most preferred. For us, this would mean that we prefer the simplest model. TODO
+
+
+
+#### Question 2
+
+**What is the difference between parameters and hyperparameters when training multilayer perceptrons?**
+
+TODO
+
+#### Question 3
+
+**What is the role of the prior distribution in Bayesian learning of neural networks**
+
+
+
+#### Question 4
+
+**What is the difference between the number of parameters and the effective number of parameters?**
+
+
+
+#### Question 5
+
+**How does one characterize uncertainties on predictions in a Bayesian learning framework?**
+
+
+
+### Lecture 6
+
+#### Question 1
+
+**What is the working principle of associative memories from a dynamical systems point of view?**
+
+Associative memories work by learning the relationships between the patterns to be stored. It does this by changing the weights between connections so that when it is in such a pattern, the energy function is at its lowest. When a partial or noisy version of the pattern is introduced, it can retrieve the stored pattern by self-organizing to the closest learned pattern.
+
+
+
+#### Question 2
+
+**What is the Hebb rule for storing patterns in associative memories and why does it work?**
+
+The **Hebbian** learning rule is based on the idea that "neurons that fire together, wire together". The rule states that the weight between two neurons should be increased if both neurons are active at the same time and deceased if one neuron is active while the other is not.
+
+
+
+#### Question 3
+
+**What determines the storage capacity in associative memories?**
+
+The storage capacity is limited by the ability to retrieve stored information without errors and the potential interference between stored patterns.
+
+
+
+#### Question 4
+
+**When solving the TSP problem using a Hopfield network, how are cities and a tour being represented?**
+
+To solve TSP using a Hopfield network, we first need to define the energy function. In the case of TSP, the energy function is defined as the sum of the distances between adjacent cities along the route, where the route must visit every city exactly once
+
+
+
+### Lecture 7
+
+#### Question 1
+
+How can one do dimensionality reduction using linear principal component analysis and nonlinear principal component analysis
+

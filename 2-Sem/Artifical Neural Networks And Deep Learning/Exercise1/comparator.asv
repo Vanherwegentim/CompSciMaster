@@ -1,0 +1,7 @@
+%Comparison script
+x = X1tra
+a1=sim(net1,X1training)
+a2=sim(net2,X2training)
+
+figure
+plot(X1training,)
