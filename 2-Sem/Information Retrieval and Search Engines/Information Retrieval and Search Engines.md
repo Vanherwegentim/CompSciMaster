@@ -309,7 +309,7 @@ The model consists of two components: a query network and a document network. Th
 
 
 
-## Les 2 Advanced Text Representations
+## Les 3 Advanced Text Representations
 
 **TODO introduction**
 
@@ -325,6 +325,8 @@ To train this model we use the EM algorithm. In the E-step of EM, we compute the
 
 pLSA has several advantages over other retrieval models, such as its ability to capture the underlying topics that are not explicitly represented in the document collection. Various modifications to the pLSA model have been proposed, such as the Latent Dirichlet Allocation (LDA) model, which incorporates a prior distribution over the topic probabilities to help regularize the model and reduce overfitting.
 
+![image-20230512120207164](img/image-20230512120207164.png)
+
 **Advantages:**
 
 - Can capture the underlying topics that are not explicitly represented in the document.
@@ -338,22 +340,40 @@ pLSA has several advantages over other retrieval models, such as its ability to 
 
 ### Latent Dirichlet Allocation (LDA)
 
-Latent Dirichlet Allocation (LDA) is a generative probabilistic model that assumes that a corpus of documents is generated from a set of latent topics. Each document is seen as a mixture of these topics, and each word in a document is generated from one of the topics. LDA generates a document collection by first defining the number of topics in the corpus, and then generating a set of topic probabilities for each document and a set of word probabilities for each topic.
+It is one of the most popular topic modeling methods. Each document is made up of various words, and each topic also has various words belonging to it. The aim of LDA is to find topics a document belongs to, based on the words in it.
 
-The generative process for LDA can be summarized as follows:
+Let’s say we have 2 topics that can be classified as *CAT_related* and *DOG_related.* A topic has probabilities for each word, so words such as *milk*, *meow*, and *kitten*, will have a higher probability in the *CAT_related* topic than in the *DOG_related* one. The *DOG_related* topic, likewise, will have high probabilities for words such as *puppy*, *bark*, and *bone.*
 
-1. For each topic k, sample a distribution over words from a Dirichlet distribution with parameter beta. This defines the set of word probabilities for each topic.
-2. For each document d, sample a distribution over topics from a Dirichlet distribution with parameter alpha. This defines the set of topic probabilities for each document.
-3. For each word w in document d: a. Sample a topic z from the distribution over topics for document d. b. Sample a word from the distribution over words for topic z.
+If we have a document containing the following sentences:
 
-Steps 1-3 are repeated for each document in the corpus, resulting in a collection of documents where each document is represented as a bag-of-words vector, and each word is associated with a topic.
+“*Dogs* like to *chew* on *bones* and fetch sticks”.
+“*Puppies* drink *milk*.”
+“Both like to *bark*.”
 
-After generating the document collection, the LDA model is trained using an iterative algorithm called Gibbs sampling. The goal of training is to estimate the parameters alpha and beta that maximize the probability of observing the document collection given the LDA model. Once the model is trained, it can be used to perform various tasks such as topic modeling, document clustering, and information retrieval.
+We can easily say it belongs to topic *DOG_related* because it contains words *such as Dogs*, *bones, puppies*, and *bark*. Even though it contains the word *milk* which belongs to the topic *CAT_related*, the document belongs to *DOG_related* as more words match with it.
 
+**Procedure**
 
+- Initializes randomly (usually a uniform distribution of probabilities) 
+- Considers each word token in each document in the text collection in turn 
+- Estimates the probability of assigning the current word token to each topic, conditioned on the topic assignments of all other word tokens (the updating step) 
+- From this conditional distribution, a topic is sampled and stored as the new topic assignment for this word token (the sampling step)
 
 #### Priors 
 
 Allows us to integrate some initial knowledge
 
 In information retrieval, Multinomial distributions are often used to model the distribution of terms in documents or queries. Specifically, the Multinomial distribution is used as a prior distribution over the probability of observing each term in a document or query, where the goal is to estimate the probability of a document or query being relevant to a given information need.
+
+
+
+## Les 6 Learning to Rank
+
+Learning to rank for IR uses **supervised training data** such as human relevance labels and click data to train towards an IR objective.
+
+Training approaches:
+
+- **Pointwise:** a binary or graded relevance label is predicted for each document
+- **Pairwise** the preference ranking of two documents is predicted
+- **Listwise:** a ranked relevance list of documents is predicted
+

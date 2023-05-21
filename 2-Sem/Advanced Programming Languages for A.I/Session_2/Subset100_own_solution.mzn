@@ -1,4 +1,4 @@
-include "globals.mzn"; 
+winclude "globals.mzn"; 
 
 array[1..10] of var 1..100: num_list;
 

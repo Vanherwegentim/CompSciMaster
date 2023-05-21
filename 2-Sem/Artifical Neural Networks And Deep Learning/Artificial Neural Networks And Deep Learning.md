@@ -4,6 +4,9 @@
 
 ## Lecture 2 **Multilayer feedforward networks and backpropagation**
 
+[StatQuest Information]: https://www.youtube.com/watch?v=CqOfi41LfDw&amp;list=PLblh5JKOoLUIxGDQs4LFFD--41Vzf-ME1&amp;index=2
+[3Blue1Brown Information]: https://www.youtube.com/watch?v=aircAruvnKk&amp;list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi
+
 
 
 ### 2.1 Multilayer perceptrons
@@ -441,6 +444,8 @@ Gene networks are a type of neural network that models the interactions between 
 
 ### 4.1 Dimensionality reduction and nonlinear PCA
 
+https://www.youtube.com/watch?v=FD4DeN81ODY
+
 Dimensionality reduction is very important because it reduces the number of variables or features in a dataset while retaining most of its relevant information. This is useful for many reasons, including reducing the computation cost of processing the data, improving the interpretability of the data, and avoiding the curse of dimensionality.
 
 A well known method for reducing linear dimensionality is **principal component analysis (PCA).** **PCA** finds the most important patterns in a data set and transforms the data into a new set of variables, called principal components, that capture the essence of the original data.
@@ -449,7 +454,7 @@ A well known method for reducing linear dimensionality is **principal component 
 
 
 
-### 4.2 Cluster algorithms
+### 4.2 Cluster algorithmsF
 
 Cluster algorithms are an important class of unsupervised learning methods that aim to group data points based on their proximity to each other using a distance measure. **PCA** that we saw previously may not be bale to detect lower dimensionality in some cases, as adding noise can increase the dimensionality of the data. The **K-means** algorithm is a well-known cluster algorithm that we saw in another course.
 
@@ -745,6 +750,8 @@ We could strife to make the reconstruction error 0 by doing nothing to the data 
 
 ### Convolution neural networks
 
+https://www.youtube.com/watch?v=HGwBXDKFk9I
+
 Convolutional Neural Networks (**CNNs**) are neural nets where the key feature is the use of convolution layers. This means that these layers each apply a set of learnable filters to small portions of the input data, resulting in feature maps that capture local patterns and structures in the data. The output of the convolutional layers is then fed into one or more fully connected layers, which perform the classification or regression task.
 
 **CNN's** also typically incorporate pooling layers, which downsample the feature maps to reduce the computation complexity of the network, as well as activation functions such as **ReLU (Rectified Linear Unit)** that introduce non-linearity into the model.
@@ -815,13 +822,13 @@ If we follow these rules we will see we end up with a **bipartite**^1^ structure
 
 #### Deep Belief Networks (DBN)
 
-In a deep belief networks we are gonna stack several **RBMs** on top each other so that the first RBM outputs are the input to the second RBM and so on. The connections within each layer are undirected (since each layer is an **RBM**). At the same, the connections between the layers are directed except for the top two layers, the connection between those is undirected. As can be seen below.
+In a deep belief networks we are gonna stack several **RBMs** on top each other so that the first RBM outputs are the input to the second RBM and so on. The connections within each layer are undirected (since each layer is an **RBM**). At the same time, the connections between the layers are directed except for the top two layers, the connection between those is undirected. As can be seen below.
 
 ![image-20230417151627139](img/image-20230417151627139.png)
 
 #### Deep Boltzmann Machines (DBM)
 
-Deep Boltzmann machines are again a type of unsupervised deep learning models that are again made of multiple layers of **Restricted Boltzmann Machines**. This allows it to learn more complex hierarchical representations of the data. The difference between **DBMs** and **DBNs** is that the connections between the layers are also undirected in a **DBM**. In these machines, the lower layers represent simple, **low-level features** of the input data, while the higher layers represent more abstract, **high-level features**. The layers are trained on at a time. **DBMs** are used in image recognition, speech recognition and natural language processing.
+Deep Boltzmann machines are again a type of unsupervised deep learning models that are again made of multiple layers of **Restricted Boltzmann Machines**. This allows it to learn more complex hierarchical representations of the data. The difference between **DBMs** and **DBNs** is that the connections between the layers are also undirected in a **DBM**. In these machines, the lower layers represent simple, **low-level features** of the input data, while the higher layers represent more abstract, **high-level features**. The layers are trained one at a time. **DBMs** are used in image recognition, speech recognition and natural language processing.
 
 ![image-20230417143614549](img/image-20230417143614549.png)
 

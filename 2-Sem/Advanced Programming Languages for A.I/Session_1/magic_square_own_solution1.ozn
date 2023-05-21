@@ -1,0 +1,3 @@
+output ["\"output\": {","\"dzn\": ",showJSON(concat(["sq = \n",let {array [int] of string: idx1 = [], array [int] of string: idx2 = [], array [int,int] of string: x = [(i, j) : show(sq[i,j]) | i in 1..5, j in 1..5]} in (show2d_indexed(idx1,idx2,x)),";\n"])),"}, \"sections\": [\"dzn\"]"];
+set of int: size = 1..5;
+array [size,size] of int: sq;
