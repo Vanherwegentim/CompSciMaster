@@ -10,10 +10,12 @@ close all
 a = {[0;0]}
 T = [1 1; -1 -1; 1 -1]';
 net = newhop(T);
+net.layers{1}
+view(net);
 n=30;
-timestep = 20;
+timestep = 50;
 %for i=1:n
-for i=1:2
+for i=1:1
     %a={rands(2,1)}                  % generate an initial point
     a(i)
     [y,Pf,Af] = sim(net,{1 timestep},{},a(i));   % simulation of the network for 50 timesteps              

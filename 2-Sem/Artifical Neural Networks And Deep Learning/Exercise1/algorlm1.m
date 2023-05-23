@@ -14,7 +14,7 @@ alg1 = 'trainlm';% First training algorithm to use
 alg2 = 'trainbfg';% Second training algorithm to use
 alg3 = 'trainbr';% Second training algorithm to use
 
-H = 50;% Number of neurons in the hidden layer
+H = 500;% Number of neurons in the hidden layer
 delta_epochs = [1,14,985];% Number of epochs to train in each step
 epochs = cumsum(delta_epochs);
 
@@ -23,7 +23,7 @@ dx=0.05;% Decrease this value to increase the number of data points
 x=0:dx:3*pi;y=sin(x.^2);
 sigma=0.2;% Standard deviation of added noise
 yn=y+sigma*randn(size(y));% Add gaussian noise
-t=y;% Targets. Change to yn to train on noisy data
+t=yn;% Targets. Change to yn to train on noisy data
 
 %creation of networks
 net1=feedforwardnet(H,alg1);% Define the feedfoward net (hidden layers)
@@ -96,6 +96,10 @@ plot(x,t,'bx',x,a13,'r',x,a23,'g',x,a33,'y');
 title([num2str(epochs(3)),' epoch']);
 legend('target',alg1,alg2,alg3,'Location','north');
 %% 
+perform1 = perform(net1, t,a13')
+perform2 = perform(net2, t,a23')
+perform3 = perform(net3, t,a33')
+
 figure
 subplot(3,3,1);
 postregm(a11,y); % perform a linear regression analysis and plot the result
