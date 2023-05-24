@@ -7,7 +7,7 @@ imagesc(reshape(threes_M,16,16),[0,1]);
 %% 
 
 
-c = 50;
+c = 3;
 X_reconstructed = zeros(c);
 for i = 1:c
     [V,D] = eigs(cov(threes),i);
@@ -19,21 +19,26 @@ for i = 1:c
 end
 imagesc(reshape(X_reconstructed(1,:),16,16),[0,1])
 
-plot(diag(D));
-%%
+%plot(diag(D));
+
 sum = cumsum(D);
-flipped = flip(sum(end, :));
-sumsum = cumsum(flipped);
-%%
+sumAgain = cumsum(sum(end, :));
+
 
 figure;
-plot(sumsum, 'b');
-title('Cumsum');
-figure;
-plot(diag(D), 'g');
+tiledlayout(1,3);
+
+nexttile;
+plot(diag(D), 'LineWidth', 2);
 title('Eigenvalues');
-figure;
-plot(rmse, 'r');
+axis([1 c 0 inf]);
+
+nexttile;
+plot(rmse, 'LineWidth', 2);
 title('reconstruction error');
+axis([1 c 0 inf]);
 
-
+nexttile;
+plot(sumAgain, 'LineWidth', 2);
+title('cumsum of eigenvalues');
+axis([1 c 0 inf]);

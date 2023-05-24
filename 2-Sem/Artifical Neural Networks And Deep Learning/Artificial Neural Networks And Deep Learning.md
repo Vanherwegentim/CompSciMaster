@@ -734,7 +734,7 @@ We could strife to make the reconstruction error 0 by doing nothing to the data 
 
     
 
-    (1) When we talk about a sparse autoencoder we are talking about an autoencoder with an additional constraint. The sparsity constraint encourages the network to learn a small subset of features that are most relevant to the input.
+    (1) When we talk about a sparse autoencoder we are talking about an autoencoder with an additional constraint. The sparsity constraint (reduce the output size by reduing the amount of neurons in the hidden layer )encourages the network to learn a small subset of features that are most relevant to the input.
 
 - **Step 2:** Use the primary features as the input to a following sparse autoencoder to learn secondary features $h^{(2)}$ on these primary features
 
@@ -779,7 +779,7 @@ Pooling layers downsample the feature maps by reducing their spatial dimensions,
 
 #### Feature extraction using convolution and pooling
 
-Natural images have the property of begin stationary (i.e. statistics of one part of the image are the same as any other part). This suggests that the features that we learn at one part of the image can also be applied to other parts of the image. 
+Natural images have the property of being stationary (i.e. statistics of one part of the image are the same as any other part). This suggests that the features that we learn at one part of the image can also be applied to other parts of the image. 
 
 **Example:** Having learned features over small ($8 \times 8$) patches sampled randomly from the larger $96 \times 96$ image, apply then the learned $8 \times 8$ feature detector anywhere in the image.
 
