@@ -885,3 +885,5 @@ The two networks are trained together in a game-like process where the generator
 #### Deep convolutional GAN (DCGAN)
 
 A deep convolutional GAN is a type of GAN that uses **convolutional neural networks (CNNs)** to generate realistic images. In this case, the generator network is a **CNN** that takes in random noise as input and outputs a synthetic image. The discriminator network is also a CNN that takes in an image and outputs a probability score indicating whether the image is real or synthetic.
+
+ 
