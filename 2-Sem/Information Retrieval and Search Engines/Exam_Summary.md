@@ -8,7 +8,7 @@
 
 **Query:** The IR process start with a user query, which is a representation of what information the user needs. The query can be a set of keywords, a sentence or any other form of input that tells us what the user wants.
 
-**Query Processing:** The query in processed and enhanced to increase the effectiveness in retrieving relevant documents. Techniques like query expansion, where we add additional terms or synonyms to capture a broader range of relevant documents. Other techniques like, query normalization, stop-word removal or stemming are used to improve the accuracy of the query.
+**Query Processing:** The query is processed and enhanced to increase the effectiveness in retrieving relevant documents. Techniques like query expansion, where we add additional terms or synonyms to capture a broader range of relevant documents. Other techniques like, query normalization, stop-word removal or stemming are used to improve the accuracy of the query.
 
 **Indexing:** This stage indexes the documents in the collection. This the process of creating a structured representation of the documents that allows for efficient retrieval. Typically, an inverted index is created, which maps terms to the documents that contain them. The inverted index is a fundamental data structure used in IR systems for fast retrieval.
 
@@ -18,7 +18,7 @@ In probabilistic retrieval models, such as the Okapi BM25 model. The relevance o
 
 **Ranked Documents:** After the previous stage, the retrieved documents are ranked according to their relevance to the query. The ranked is based on the similarity scores or relevance scores computed in the previous stage. The most relevant documents are presented to he user at the top of the list.
 
-### 
+
 
 ### Explain and compare retrieval paradigms and weighting functions
 
@@ -28,11 +28,13 @@ In probabilistic retrieval models, such as the Okapi BM25 model. The relevance o
 
 **Set-theoretic retrieval paradigm (e.g. Boolean)**
 
-This paradigm treats documents and queries as sets of terms. It operates based on boolean logic using operators like AND, OR and not to combine query terms and match them against documents. Documents that have all the query terms are relevant while others are not. The paradigm is based on the idea of exact matching and is effective for precise queries.
+This paradigm treats documents and queries as sets of terms. It operates based on boolean logic using operators like AND, OR and NOT to combine query terms and match them against documents. Documents that have all the query terms are relevant while others are not. The paradigm is based on the idea of exact matching and is effective for precise queries.
 
 **Algebraic (e.g. Vector Space)**
 
 This paradigm converts documents and queries to vectors in a high-dimensional space. The relevance of a document to a query is determined by measuring the similarity between their respective vectors. One of the metrics used is cosine similarity. This paradigm allows for flexible retrieval by considering the degree of relevance rather than exact matching.
+
+$similarity(A,B) = cos(\theta) = \frac{A.B}{||A||.||B||}$
 
 **Probabilistic (e.g. Language Model, Inference Network)**
 
@@ -79,7 +81,7 @@ Relevant is the amount of relevant data within the retrieved data so not the rel
 
 Precision is, of all the documents you retrieved, how many are relevant.
 
-Again we can evaluate a model using accuracy but again there are a few pitfalls.
+Again we can evaluate a model using precision but again there are a few pitfalls.
 
 - Limited view: Precision provides a measure of the correctness of the retrieved documents, but it does not consider the entire set of relevant documents that were not retrieved. It only focuses on the retrieved documents, giving an incomplete picture of the system's performance.
 - Sensitivity to Imbalanced Data: Precision can be sensitive to class imbalance, especially when the number of relevant documents is much smaller than the number of non-relevant documents. In such cases, even a small number of false positives (non-relevant documents retrieved) can significantly impact precision.
@@ -161,7 +163,7 @@ This is a model where documents and queries are represented as vectors in a high
 
 ![image-20230530181937323](C:\Users\timva\AppData\Roaming\Typora\typora-user-images\image-20230530181937323.png)
 
-Its advantages are the it is simple, efficient and does partial matching.
+Its advantages are that it is simple, efficient and does partial matching.
 
 
 
@@ -378,7 +380,7 @@ Alternatively, a modified formula can be used, where the frequency of the word i
 
 
 
-#### Contextualized word embeddigs
+#### Contextualized word embeddings
 
 - ELMo (Peters et al., 2018): recurrent neural network architecture
 - BERT (Devlin et al., 2019): transformer architecture
@@ -399,7 +401,7 @@ BERT is trained with 2 main objectives
 
 ![image-20230601114413276](img/image-20230601114413276.png)
 
-**Next sentencce prediction**
+**Next sentence prediction**
 
 Choosing two sentences A and B from the training corpus:
 
@@ -451,9 +453,9 @@ The receptive field of the units in the deeper layers of a convolutional network
 
 #### CNNs and their use for building image and text representations
 
-Convolutional Neural Networks (CNNs) are a type of neural network architecture that is particularly effective for analyzing and processing structured grid-like data, such as images and text. CNNs have been widely used in computer vision tasks for image recognition, object detection, and image generation. However, they can also be applied to text data for tasks such as text classification, sentiment analysis, and natural language processing.
+Convolutional Neural Networks (CNNs) are a type of neural network architecture that is particularly effective for analysing and processing structured grid-like data, such as images and text. CNNs have been widely used in computer vision tasks for image recognition, object detection, and image generation. However, they can also be applied to text data for tasks such as text classification, sentiment analysis, and natural language processing.
 
-In the context of image representation, CNNs leverage their ability to capture local patterns and hierarchical features. They consist of multiple layers, including convolutional layers, pooling layers, and fully connected layers. The convolutional layers apply a set of learnable filters to the input image, performing local feature extraction and capturing spatial dependencies. The pooling layers downsample the feature maps, reducing their spatial dimensionality while preserving important features. Finally, the fully connected layers combine the extracted features and produce the final image representation.
+In the context of image representation, CNNs leverage their ability to capture local patterns and hierarchical features. They consist of multiple layers, including convolutional layers, pooling layers, and fully connected layers. The convolutional layers apply a set of learnable filters to the input image, performing local feature extraction and capturing spatial dependencies. The pooling layers down sample the feature maps, reducing their spatial dimensionality while preserving important features. Finally, the fully connected layers combine the extracted features and produce the final image representation.
 
 For text representation, CNNs can be used in a similar way. Instead of operating on image pixels, they process text inputs as sequences of words or characters. The text is usually represented using word embeddings or character embeddings, which capture the semantic and syntactic relationships between words. The convolutional layers in the CNN perform convolutions over the input sequence, capturing local n-gram features and detecting patterns in the text. Pooling layers can be used to summarize the extracted features and reduce the dimensionality. The resulting feature maps are then fed into fully connected layers for further processing and classification.
 
@@ -464,6 +466,22 @@ The use of CNNs for image and text representations offers several advantages. Fi
 
 
 ## 6. Learning to rank
+
+#### Ranking evaluation:
+
+**Average precision (AP):**
+
+![image-20230607143801845](img/image-20230607143801845.png)
+
+
+
+**Discounted cumulative gain:**
+
+![image-20230607143900891](img/image-20230607143900891.png)
+
+**Mean Reciprocal Answer Rank (MRAR or MRR)**
+
+![image-20230607144001360](img/image-20230607144001360.png)
 
 Training approaches
 
@@ -507,8 +525,8 @@ In the pairwise approach, the training process involves pairs of query-document 
 **Loss function used:**
 
 - Hinge loss
-- Pairwise cross entropy
-- Loss based on Kendall's $T$
+- Pairwise(binary) cross entropy
+- Loss based on Kendall-$\tau$: $\frac{P-Q}{Q+P}$ with P being the concordant and Q discordant
 
 **Advantages and disadvantages**
 
@@ -622,3 +640,153 @@ Algorithm iteratively propagates authority weight and hub weight across links of
 3. Convergence: The iterative process continues until the authority and hub scores converge, meaning they reach a stable state where further iterations do not significantly change the scores. At this point, the authority and hub scores represent the estimated importance and hubness of each web page within the network.
 4. Ranking: The web pages can be ranked based on their authority or hub scores. Pages with higher authority scores are considered more authoritative, while pages with higher hub scores are considered better hubs or gateways to relevant content.
 
+
+
+## 8. Indexing, compression and search 
+
+**Explain inverted files and different types of distributed indices** 
+
+Inverted files are meant to compress documents by indexing their word counts. 
+
+Distributed indices are inverted files spread on servers. When querying a server might return his results if it the prediction results meet the threshold or pass the query to a different server.
+
+**Explain and compute Huffman codes**
+
+When using a limited size of vocabulary we can encode words to consist of fewer bits, this way we can compress our data. The concept is that using the shortest notation for the most occurring words gives us the biggest compression ( so the smallest files ). When using encodings its important to note that the decoding might take a long time and there has to be an index table that explains the encodings, which makes encoding not always a smart choice.
+
+
+
+ 
+
+## 9.**Clustering**
+
+Proximity function uses to express how similar clusters are.
+
+- **Maximum proximity**: defines proximity based on their most similar pair of objects
+- **Minimum proximity**: defines proximity based on their least similar pair of objects
+- **Average proximity**: defines proximity based on the average of the similarities between all pair of objects
+- **Mean proximity**: defines proximity based on the similarity of the representative (centroid,medoid) of each cluster
+
+**Explain and be able to compute the different clustering types and their objective functions including the computation of the number of clusters** 
+
+- Sequential clustering
+- hierarchical clustering
+- Clustering based on cost/objective function optimization
+
+
+
+**Sequential clustering**
+
+Builds the clustering by adding data points in a sequential manner, one at a time or in batches. So this means that the algorithm does not require all data points upfront. An extreme version of sequential clustering is the **Single pass algorithm**. In one pass, assign all $n$ objects to their closest cluster based on a threshold similarity value.
+
+
+
+**Hierarchical clustering**
+
+Two kinds of hierarchical clustering
+
+- Agglomerative hierarchical clustering
+  - Here we are going to start with putting each data point in its own cluster and then we iteratively merge similar clusters together to form bigger clusters
+    ![image-20230605133709880](img/image-20230605133709880.png)
+  - Within agglomerative clustering we have several methods to define the proximity between the clusters
+    - **Single link(age)** (nearest neighbour) clustering. Uses the maximum proximity function
+    - **Complete link(age)** (furthest neighbour) clustering. Uses the minim proximity function
+    - **Group average link(age)**: Uses the average proximity function. Efficient variant
+- Divisive hierarchical clustering
+  - Here we start with one huge clusters with all the data points and then divide it into smaller clusters with similar data points.
+    ![image-20230605133835632](img/image-20230605133835632.png)
+  - Iteratively split clusters in a few clusters by means of a partitioning algorithm
+  - Distinct advantage: possible to generate few large clusters early in the clustering process.
+
+
+
+
+
+**Describe the scalability of the different algorithms on a high-level** 
+
+1. Single pass: all objects get assigned to their closest cluster in a single pass. Highly scalable because of the simple assignments
+2. Hierarchical clustering: harder to scale because of multiple rounds through the data
+
+**Compute and explain contrastive loss functions**
+
+Contrastive loss functions are meant to group similar labels together and push dissimilar data points farther apart. By using this we can use more meaningful representations between data points
+
+ **Apply clustering in different retrieval settings** 
+
+By using the fact that similar documents are clustered together we can create a retrieval model that retrieves a cluster instead of separate documents and then returns the documents in that cluster.
+
+
+
+ 
+
+## 10. Categorization 
+
+**Explain and compute feature selection and extraction methods** 
+
+To extract features we can take documents, remove stopwords and clean up the data (see terms used in first lessons to adjust words to their base thing like flies -> fly ) afterwards we can look at words appearing often in documents while absent in others to categorize them. For example a document containing words like: “Engine, wheels, spoiler” can be categorized as CAR as the words are all related to cars.
+
+In a supervised environment we can compute the relevance of the selected features to their categories by using things as information gain.
+
+**Explain and compute a Naive Bayes and (approximate) k-NN model**
+
+We can use naïve bayes to predict the most probable categories, this can be done by clustering terms and then looking at how much “chance” there is that a term would be assigned to a cluster. For example we can look at how close the term: “Wheels” would be to a cluster consisting of car terms. Doing this for a couple of the nearest clusters we can then return the most likely category/cluster.
+
+**Explain and compute the different types of cross-entropy losses** 
+
+Cross-entropy losses are often used in neural networks to compute how far away our training predictions are from the actual value, decreasing the loss will result in a more accurate neural net with better retrieval results. But trying to reduce it too much might result in overfitting which is why neural nets use validation sets.
+
+**Explain the different models for multilabel and hierarchical classification and their scalability** 
+
+For hierarchical classification we can use multiple techniques we could use flat classification to train on the leaf nodes but we can also use local classifiers that each train on their level, by doing this we train local models that increase the accuracy in classes and are easier to train
+
+**Explain the principle of extreme classification** 
+
+Extreme classification is about finding the right label out of a huge amount of possibilities. Since there are so many labels training a model on it would result in all extremely low and close by predictions values. To counter this we can use Nearest Neighbour to find the most likely couple of categories and then using classifier on it. The reason why this works is because documents tend to only be close to only a couple of categories, so we don’t need to know how close they are to all of them.
+
+
+
+ 
+
+## 11. Dynamic IR 
+
+**Explain the principles of relevance and pseudo-relevance feedback** 
+
+The relevance is computed when retrieving documents and can be calculated for example by regression, the pseudo relevance involves how the user later interacts with the initial query, for example slightly changing the query. 
+
+**Compute the Rocchio algorithm** 
+
+The Rocchio algorithm uses multiple queries and computes the relevance of a document by computing the relevance based on the query and substracting the non relevant documents from the previous query. For example a first query: “Find me all the doctors in Leuven” which then evolves in the query “Find me all the doctors in Gent”. Here we can substract the result which have a relevance to Leuven because this got changed in the queries.
+
+**Formally describe a language retrieval model for session search** 
+
+In session search we can use query context to adjust the final results, knowing the query changed from containing a word for example Leuven, to Gent we can put extra weight on the Gent part and lessen the chance of getting documents containing Leuven
+
+**Explain and compute the different multi-armed bandit algorithms, and apply them in retrieval and recommendation** 
+
+We have seen 3 different multi-armed bandit algorithms:
+
+1. Stochastic bandit algorithms where we just try to maximize the return by calculating the regret and try to pull the best arm
+2. Upper Confidence bound where we give a confidence based on how often the arm gave a good result divided by the times it got pulled. Having an arm that was right 1 out of 2 times and an arm that was right 50 out of 100 times we will prefer the second one since it has proven to be more consistently right.
+3. Contextual bandit algorithms where we use the context of the query to improve the results.
+
+
+
+ 
+
+## 12. Question Answering, Conversational Search and Recommendation 
+
+ 
+
+**Explain RNNs and their use for building text representations** 
+
+By using the RNN structure we can encode documents/texts/words in a vector feature notation, as for example we could encode “bat” as a vector like : [0.8,0.8,0] with Bird, Night creature, and car as column values. Meaning the word bat has a close association with the first 2 columns and a very low or association with the last column.
+
+**Describe (a combination of) suitable neural architectures for (V)QA and conversational search** 
+
+We could use a LTSM/BiLTSM to process the conversation and ask extra info if needed. Afterwards we could use a CNN to process the most important factors in the conversation like: “Red”, “Dress”, “Short” and return a fitting image.
+
+**Explain and compute loss functions for (V)QA and conversational search**
+
+We could create a loss function that computes the difference between the expected outcome images and the retrieved ones. In the example above this could be done by looking at the encodings of the retrieved images and comparing them to a set that we would expect the model to give back. There are multiple loss functions for this.
+
+Since we have a conversational search we could also use the user input to see how well our models are performing, if the user clicks on the images we could see this a good retrieval, and if the user continues their queries with more details we could “punish” the model.

@@ -87,23 +87,21 @@ That if we cannot separate something in the original space linearly that such a 
 
 
 
-The **Levenberg-Marquardt** algorithm is again a method for training neural networks by 
-
-A **damping factor** is also applied to the gradient to balance the trade-off between fast convergence and stability. The algorithm then uses the damped gradient to update the weights of the neural network. The learning rate of this algorithm is not fixed like in previous methods. The learning rate is adjusted **dynamically** based on the **curvature of the error surface**. This allows the algorithm to converge faster while **avoiding overshooting** the optimal solution.
-
-This method combines the benefits of gradient descent and Gauss-Newton methods.
+The **Levenberg-Marquardt** algorithm is a learning algorithm that combines the advantages of the Gauss-Newton and steepest decent methods. It calculates an approximation of the Hessian matrix using only the first order derivatives (Jacobian matrix), which represents the second-order derivative of the error function. The Gauss-Newton method updates the parameters based on the inverse of the Hessian matrix approximation, which allows for faster convergence when the approximation is accurate. The steepest descent method is used as a fall back when the Hessian approximation is not sufficient.  It adapts the update step size based on the local curvature of the error function, allowing for faster convergence in regions of small curvature and more stable updates in regions of large curvature. The Levenberg-Marquardt builds upon the Gauss-Newton algorithm by introducing a damping term. The damping term balances the trade-off between fast convergence and stability.
 
 **Hessian matrix:** A matrix of the second-order partial derivatives.
 
 **Jacobian matrix:** A matrix of the first-order partial derivatives.
 
-**TODO**
+
+
+The key difference between Gauss-Newton (LevenBerg-Marquardt) and Quasi-Newton (ex. BFGS) methods lies in their problem focus and the way the handle the Hessian matrix. The GN method is specialized for nonlinear least squares problems and approximate the Hessian using the Jacobian. While the Quasi-Newton methods are general optimization algorithms that approximate the Hessian or its inverse using gradient information, for solving unconstrained optimization problems.
 
 #### Question 2
 
 **Explain quasi-Newton learning of neural networks.**
 
-Similar to **Newton's** method but with an important difference, that begin that we approximate the **Hessian** matrix instead of computing its exact values. This saves us a lot of time and computation power. The **BFGS algorithm** is an example of a quasi-Newton algorithm. Unfortunately, when the neural network contains many interconnection weights, it becomes hard to store the matrices into computer memory. That's why for large scale neural networks, conjugate gradient methods are to be preferred.
+Similar to **Newton's** method but with an important difference, that begin that we approximate the **Hessian** matrix instead of computing its exact values. This saves us a lot of time and computation power. The **BFGS algorithm** is an example of a quasi-Newton algorithm. Unfortunately, when the neural network contains many interconnection weights, it becomes hard to store the matrices (Hessian and Jacobian) into computer memory. That's why for large scale neural networks, conjugate gradient methods are to be preferred.
 
 
 
@@ -143,7 +141,7 @@ The effective number of parameters refers to the number of non-zero parameters t
 
 **What is the difference between least squares (regression) and ridge regression (regularization)? How is this related to the bias-variance trade-off?**
 
-Least squares regression aims to find the line in the case of linear regression or hyperplane in the case of multiple linear regression that minimizes the sum of the squared differences between the observed and predicted values
+Least squares regression aims to find the line, in the case of linear regression or a hyperplane in the case of multiple linear regression, that minimizes the sum of the squared differences between the observed and predicted values
 
 Ridge regression aims to do the same but it adds a penalty term to the least squares objective function, known as the L2 regularization term. This penalty term helps to shrink the coefficients towards zero, reducing their variance and overfitting.
 
@@ -189,8 +187,9 @@ In order to improve the generalization performance of the trained models one can
 
 1. Train your network to a minimum of the error function
 2. Calculate which weights can be removed without introducing a lot of error using the inverse Hessian matrix
-3. Adjust remaining weights to account for removal of the weights.
-4. Go to 2 and repeat until some stopping criterion is reached
+3. Remove the weights that can be removed without introducing a lot of error and update the weight matrix (it changes dimension).
+4. Adjust remaining weights to account for removal of the weights.
+5. Go to 2 and repeat until some stopping criterion is reached
 
 
 
@@ -208,11 +207,7 @@ In order to improve the generalization performance of the trained models one can
 
 **Explain the committee networks method.**
 
-This method is instead of taking one model and training, we take several and combine them to make a sort of committee of networks. This committee of networks can outperform the best single network. This comes with a few disadvantages because we need to train a lot more.
-
-
-
-
+The committee networks method, also known as ensemble learning or model averaging, is a technique that combines multiple individual models, called committee members, to make predictions or decisions. In this method, each committee member is trained independently on the same task or dataset, using possibly different algorithms or parameter settings.
 
 ### Lecture 5
 
@@ -236,7 +231,9 @@ Hyperparameters are the configurations of the neural network that are set before
 
 **What is the role of the prior distribution in Bayesian learning of neural networks**
 
-The prior distribution represents prior beliefs about the model's parameters. It incorporates prior knowledge and influences the posterior distribution which are the update beliefs after observing the data.
+The role of the prior distribution in Bayesian learning of neural networks is to incorporate prior knowledge or assumptions about the model parameters before observing any data. It provides a way to specify beliefs about the likely values of the parameters based on prior experience or domain knowledge.
+
+The prior distribution can be chosen based on prior beliefs or can be non-informative, expressing minimal prior knowledge. The choice of the prior distribution reflects the prior assumptions about the parameters' values and their uncertainty.
 
 #### Question 4
 
@@ -248,7 +245,9 @@ The number of parameters refers to the total count of weights in a model while t
 
 **How does one characterize uncertainties on predictions in a Bayesian learning framework?**
 
-TODO
+Instead of providing a single point estimate, Bayesian methods offer a distribution of predictions, allowing for a more comprehensive understanding of the uncertainty associated with the model's output.
+
+
 
 ### Lecture 6
 
@@ -264,7 +263,7 @@ Associative memories work by learning the relationships between the patterns to 
 
 **What is the Hebb rule for storing patterns in associative memories and why does it work?**
 
-The **Hebbian** learning rule is based on the idea that "neurons that fire together, wire together". The rule states that the weight between two neurons should be increased if both neurons are active at the same time and deceased if one neuron is active while the other is not.
+The **Hebbian** learning rule is based on the idea that "neurons that fire together, wire together". The rule states that the weight between two neurons should be increased if both neurons are active at the same time and decreased if one neuron is active while the other is not. The Hebbian rule provides a mechanism for modifying synaptic strengths based on the co-activation of neurons. It works by strengthening the connections between neurons that consistently fire together, facilitating associative memory storage and retrieval.
 
 
 
@@ -272,7 +271,13 @@ The **Hebbian** learning rule is based on the idea that "neurons that fire toget
 
 **What determines the storage capacity in associative memories?**
 
-The storage capacity is limited by the ability to retrieve stored information without errors and the potential interference between stored patterns.
+The storage capacity is limited by the ability to retrieve stored information without errors and the potential interference between stored patterns. The ability to retrieve the information without errors is dependent on the amount of neurons given by the formula:
+
+$p_{max} = \frac{N}{4^*log(N)}$
+
+Meaning that the more neurons we have, the more patterns we can store without errors.
+
+
 
 
 
@@ -280,11 +285,51 @@ The storage capacity is limited by the ability to retrieve stored information wi
 
 **When solving the TSP problem using a Hopfield network, how are cities and a tour being represented?**
 
-To solve TSP using a Hopfield network, we first need to define the energy function. In the case of TSP, the energy function is defined as the sum of the distances between adjacent cities along the route, where the route must visit every city exactly once
+To solve TSP using a Hopfield network, we first need to define the energy function. In the case of TSP, the energy function is defined as the sum of the distances between adjacent cities along the route, where the route must visit every city exactly once. When this sum is lowest, so the energy function as well, we have found the shortest distances.
 
 
 
 
+
+
+
+### Lecture 7 
+
+#### Question 1
+
+**How can one do dimensionality reduction using linear principal component analysis and nonlinear principal component analysis?** 
+
+When using Principal component analysis (PCA) we calculate the covariance matrix of all the data, then calculate the eigenvalues and eigenvectors. Afterwards we project the data on the most important eigenvectors (the ones with the highest eigenvalues as these hold the most information). By doing this projection we essentially project the data in a lower dimension which we can feed to for example neural networks to learn from in a less computational expensive way. 
+
+In nonlinear PCA we use kernel functions for mapping to higher dimension, which is useful for data points who can not be described with linear function like circles.
+
+#### Question 2
+
+**What is the reconstruction problem in principal component analysis?** 
+
+The point of PCA is projecting the data to a lower dimension. By doing this we don’t use all of the eigenvectors which causes us to lose some information, as the original matrix cannot be fully recovered. This is a trade off we take and in exchange we can use the used eigenvectors as features which are less computational expensive (basically wa hierboven staat lol)
+
+#### Question 3
+
+**Explain the working principle of Oja’s learning rule.** 
+
+Oja's learning rule is a competitive unsupervised learning algorithm that is based on the Hebbian learning principle. It iteratively adapts the weights of the neural network to learn to represent the directions of maximum variance in the dataset, which are the principal components. The rule allows for the dimensionality reduction and extraction of meaningful features from the data. Oja's rule is susceptible to getting trapped in local optima.  Oja's rule can be seen as a neural network-based approach to compute the principal components, similar to how PCA (Principal Component Analysis) calculates them using matrix operations.
+
+#### Question 4
+
+**What is the aim of vector quantization?** 
+
+The aim of vector quantization is to compress or represent a set of continuous-valued vectors using a smaller set of discrete-valued vectors, known as prototype vectors. The goal is to approximate the original data while reducing the amount of information required to represent it. It achieves this by partitioning the input vector space into regions and assigning a representative prototype vector to each region. 
+
+The selected prototype vectors should capture the essential characteristics of the input vectors. Vector quantization introduces some level of error in the reconstructed data due to the approximation process. The aim is to control this error and strike a balance between compression and the quality of the reconstructed data.
+
+#### Question 5
+
+**How is vector quantization related to self-organizing maps?**
+
+Similar to vector quantization, self-organizing maps try to represent the underlying density of the input by means of prototype vectors. The main purpose of self-organizing maps is to map high-dimensional input data onto a lower-dimensional grid of neurons, typically 2 dimensions. 
+
+Self-organizing maps, also known as Kohonen maps, are used for clustering, visualization and dimensionality reduction. The training utilizes competitive learning. self-organizing maps self-organize by adjusting the weights of neurons based on input data, creating a topological representation that captures the similarities and structure of the data. SOM uses competitive learning like vector quantization.
 
 
 
@@ -294,7 +339,7 @@ To solve TSP using a Hopfield network, we first need to define the energy functi
 
 **How can a multilayer perceptron be used for time-series prediction?** 
 
-We can create a feedforward neural net that takes the known values for x amount of time-values as input (with x being the amount of lagg we decide to use). Using this input we can let the model predict the most probable value for the next timestamp. Afterwards we can add this prediction to our input in a sliding window fashion to then predict the next timestamp, and so on. 
+A multilayer perceptron can be used if we prepare the data correctly. We organize the time-series data into input-output pairs where the input is a sequence of past observations and the output is the predicted value for the next time step. We use these input-output pairs to train the MLP. Although you can use an MLP for time-series prediction, it can be challenging. They are limited by their inability to retain memory of past inputs. This can lead to difficulties in accurately predicting future values. If the multilayer perceptron is recurrent neural network, we also have the problem of the vanishing gradient.
 
 #### Question 2
 
@@ -302,17 +347,24 @@ We can create a feedforward neural net that takes the known values for x amount 
 
 We can use neural networks in system identifications like time series by training on the input and output data and letting the neural net find out how the output is correlated to the input data. Doing this should allow one to discovering the working of the system and predict outputs.
 
+
+
 #### Question 3
 
 **Explain the use of dynamic backpropagation.** 
 
- 
+ Dynamic backpropagation is modification of the standard backpropagation algorithm, which takes into account the time dependency of the data. It works by propagation the error derivatives back in time through the network, which allows the network to learn the temporal dependencies in the data.  Although it can be computationally intensive and may require more training data than standard backpropagation, The benefits in capturing the temporal dependencies in the data can outweigh these drawbacks.
 
 #### Question 4
 
 **Explain the use of neural networks for control applications.** 
 
-Neural networks can be used in control applications by first observing an expert (training data) and training a model to mimic the actions of that expert (output data). The model can be trained by using reinforcement learning and giving the model a reward when performing the same action as the expert.
+Neural networks can be used in control applications with 3 different approaches:
+
+- Mimic an expert by collection input/output data from the expert (e.g. learning to drive a car)
+- Model-based control of a system: first estimate a (neural network) model and then design a neural controller based on the estimated model.
+- Control a system without making use of a model for the system. For Example:
+  - Reinforcement Learning - In this approach, the neural network is used to learn a control policy through interactions with the environment. The neural network acts as the policy network or value function approximator in reinforcement learning algorithms. The system is controlled based on feedback and rewards obtained from the environment, allowing the neural network to learn optimal control strategies. An example could be training a neural network to control a robot arm to perform a specific task without explicitly modeling the dynamics of the system.
 
 
 
@@ -322,7 +374,14 @@ Neural networks can be used in control applications by first observing an expert
 
 **What are advantages of support vector machines in comparison with classical multilayer perceptrons?** 
 
-SVM’s are more interpretable than classical multiplayer perceptron’s. they also maximize the distance between classes. SVM’s are also more computational efficient, and less effected by outliers. 
+SVM’s are more easily interpreted than classical multiplayer perceptron’s. they also maximize the distance between classes. SVM’s are also more computational efficient, and less effected by outliers. SVMs also don't have the problem of ending up in local minima solutions like MLP's do.
+
+Some of the advantages:
+
+- Effective in high-dimension space, by using support vectors they can avoid the curse of dimensionality.
+- Kernel trick for Nonlinear data
+- Guarantees global optimum solutions
+- Computationally efficient and less affected by outliers.
 
 #### Question 2
 
@@ -334,13 +393,13 @@ The kernel trick is used to transform data that isn’t linearly separable to an
 
 **What is a support vector?** 
 
-A support vector is a line we draw to separate data. SVM’s try to maximize the distance between 2 differently classified points to get more accurate predictions. These vectors then get stored and used to make predictions about the test data. By using support vectors instead of the datapoints we don’t have to store all the training data but only the support vectors.
+A support vector is a data point that captures the essential information needed to discriminate between different classes. They provide the information for constructing an optimal decision boundary and determining the boundaries for new data points. SVM’s try to maximize the distance between 2 differently classified points to get accurate predictions. These vectors then get stored and used to make predictions about the test data. By using support vectors, which are a subset of the training data, we can computationally efficiently deal with high-dimension datasets.
 
 ####  Question 4
 
 **What is a primal and a dual problem in support vector machines?** 
 
-Bullshit negro
+SVM's can be defined in two ways, one is the primal form and the other one is the dual form. The dual form is an alternative formulation of the SVM optimization. It involves transforming the primal problem into a constrained optimization problem, expressed in terms of Langrange multipliers. The primal form optimizes the objective function subject to a set of constraints while the the dual form create a Langrangian function that combines the objective function and the constraints.  The primal form is preferred when we don't need to apply the kernel trick to the data, the dataset is large but the dimension of each data point is small. Dual form is preferred when data has a huge dimension and we need to apply the kernel trick.
 
 
 
@@ -350,7 +409,7 @@ Bullshit negro
 
 **• Give motivations for considering the use of more hidden layers in multilayer feedforward neural networks.** 
 
-Using more hidden layers can give our model more possibilities to combine features learned in the early layers. Generally, this results in models that can work out more complex tasks.
+Neural networks with one hidden layer are universal approximators but we can't say how many neurons may be needed in that hidden layer. For example: On hidden layer and $n$ inputs may require $2^n$ hidden units which is a very large number. But if we add more hidden layers the amount of neurons needed may be more moderate. So not exponential but rather polynomial. These extra layers will allow the neural network to capture the underlying features and thus work out more complex tasks.
 
 #### Question 2
 
@@ -362,19 +421,23 @@ During the pre-training we train autoencoders to condense the data/learn importa
 
 **• What are possible difficulties for training deep networks?** 
 
-There are numerous difficulties in training deep networks. Some of the most known ones which we also saw while working on our report are overfitting, vanishing/exploding gradients, and computational difficulties. Further they also get less interpretable and explainable making them more and more of a black box model.
+There are numerous difficulties in training deep networks. Some of the most known ones which we also saw while working on our report are overfitting, vanishing/exploding gradients, and computational difficulties. Further they also get less interpretable and explainable making them more and more of a black box model. Supervised learning using labeled data by applying gradient descent (e.g. backpropagation) on deep networks usually does not work well. Too many bad local minima occur
 
 #### Question 4
 
 **Explain stacked autoencoders.** 
 
-A regular autoencoder is meant to reduce the dimensionality of input data, stacked autoencoders go further on this by condensing the condensed data even further. For example, a regular autoencoder can learn to represent digits by their binary encoding, stacked autoencoders can take this 1 step r resulting in smaller more meaningful features.
+An autoencoder is a type of neural network that is trained (unsupervised) to reproduce its input data as its output. It consists of two parts: an **encoder** and a **decoder**. The encoder transforms the input data into a compressed representation, with typically a lower dimensionality than the input. So it can be more efficiently used. The decoder attempts to reconstruct the original data from the compressed representation. 
+
+Stacked autoencoders are several autoencoders stacked on top of each other. The first autoencoder learns the primary features of the data. These primary features are then given to the next autoencoder which in turn learns the secondary features. We can continue doing this to keep on condensing the input as far as we want. We can then use a classifier such as softmax to classify the output of last autoencoder. By condensing the data before feeding it to a classifier, we benefit from dimensionality reduction and thus increased efficiency
 
 #### Question 5
 
 **Explain convolution and max-pooling in convolutional neural networks.** 
 
-Convolutional layers work by taking the average/median of multiple values (in a box) to condense the data. Max-pooling layers kind off work the same as convolutional layers as they condense the data, but instead of taking the average/mean they take the highest occurring value in the set of cells.
+Convolution layers apply filter or kernel to the input image to extract features, such as edges or patterns. When we apply this filter over the input image we calculate the dot product and then put the output of the dot product unto a feature map. Each filter produces a new feature map, which highlights a specific pattern in the input data. The size of the feature map is smaller than the input data, as the filter moves over the input, pixels are shared and produce smaller outputs. 
+
+Pooling layers down sample the feature maps by reducing their dimensions, while retaining the most important information. This helps to reduce the number of parameters and computation required in the layers that come next. This is done by taking small sub-regions of the feature map and summarizing their contents into a single value.
 
 
 
@@ -384,13 +447,13 @@ Convolutional layers work by taking the average/median of multiple values (in a 
 
  **Explain Restricted Boltzmann Machines.** 
 
-A restricted Boltzmann machine is a kind of neural network with 2 fully connected layers. It is meant to generate or reduce dimensionality in data. 
+A restricted Boltzmann machine is a generative neural network that has no connections within a layer. In general, RBMs consist of 2 layers, a hidden layer and an input layer.RBMs were created because the connection in Boltzmann machines grow exponentially and thus are hard to train. RBMs are used in unsupervised learning tasks such as dimensionality reduction and data generation using Gibbs sampling. For more complex data we can use Deep Boltzmann machines which are several RBMs stacked on top of each other.
 
 #### Question 2
 
 **Explain Deep Boltzmann Machines.** 
 
-Deep Boltzmann Machines is a variant of restricted Boltzmann machines but with more fully connected layers. Using more layers allows the model to learn more complex features and generate more accurate data. Because of the increased layers the computational complexity also increases
+Deep Boltzmann Machines are a type of unsupervised learning models that are made of several layers of restricted Boltzmann machines. The difference between this DBM and DBN (deep belief networks) is that the connections between the layers at the bottom are also undirected. In these machines the surface layers represent the simple low-level features and the deeper layers represent the abstract, high-level features. The layers are trained one at a time.
 
 #### Question 3
 
@@ -402,5 +465,5 @@ Wasserstein distance in RBMs aims to reduce the distance between generated data 
 
 **Discuss Generative Adversarial Networks.**
 
-Generative adversial networks can be described as 2 separate neural nets. A generator which tries to generate “fake” input data and a discriminator which tries to distinguish fake and real input data. If a discriminator can do this it means our generator hasn’t done a good job and needs to adjust its weights.
+Generative adversarial networks can be described as 2 separate neural nets. A generator which tries to generate “fake” input data and a discriminator which tries to distinguish fake and real input data. The two networks are trained together in a game-like process where the generator tries to generate more realistic data to fool the discriminator, while the discriminator tries to correctly classify the real and generated data.
 

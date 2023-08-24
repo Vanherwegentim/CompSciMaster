@@ -14,7 +14,7 @@ alg1 = 'trainlm';% First training algorithm to use
 alg2 = 'trainbfg';% Second training algorithm to use
 alg3 = 'trainbr';% Second training algorithm to use
 
-H = 500;% Number of neurons in the hidden layer
+H = 50;% Number of neurons in the hidden layer
 delta_epochs = [1,14,985];% Number of epochs to train in each step
 epochs = cumsum(delta_epochs);
 
@@ -55,7 +55,8 @@ net3.trainParam.epochs=delta_epochs(1);
 
 net1=train(net1,x,t);   % train the networks
 net2=train(net2,x,t);
-net3=train(net2,x,t);
+net3=train(net3,x,t);
+
 
 a11=sim(net1,x); a21=sim(net2,x); a31=sim(net3,x);
 % simulate the networks with the input vector x
@@ -66,7 +67,7 @@ net3.trainParam.epochs=delta_epochs(2);
 
 net1=train(net1,x,t);
 net2=train(net2,x,t);
-net2=train(net2,x,t);
+net3=train(net3,x,t);
 
 a12=sim(net1,x); a22=sim(net2,x);a32=sim(net3,x);
 
@@ -76,11 +77,12 @@ net3.trainParam.epochs=delta_epochs(3);
 
 net1=train(net1,x,t);
 net2=train(net2,x,t);
-net3=train(net2,x,t);
+net3=train(net3,x,t);
 
 a13=sim(net1,x); a23=sim(net2,x); a33=sim(net3,x);
-%% 
-
+%%
+perform(net3,x,y)
+%%
 %plots
 figure
 subplot(3,1,1);

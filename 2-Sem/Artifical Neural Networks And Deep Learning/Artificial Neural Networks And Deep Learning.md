@@ -55,6 +55,12 @@ A **feedforward neural network** is a type of artificial neural network in which
 
 #### 2.2.2 The curse of dimensionality
 
+The curse of dimensionality refers to the issues that arise when dealing with high-dimensional data in machine learning. Some of the issues are:
+
+- Sparsity of data: as the number of dimensions increase, the available data points become sparser. Sparse data can make it challenging to estimate statistical relationships.
+- With each dimension, the computational complexity increases.
+- Overfitting and Generalization Issues: High-dimensional data increases the risk of overfitting, where a model becomes overly complex and performs well on training data but fails to generalize to unseen data.
+
 Neural networks avoid the curse of dimensionality in the sense that the approximation error becomes independent from the dimension of the input space, which is not the case for **polynomial expansions**.
 
 Now what are polynomial expansions?
@@ -142,7 +148,15 @@ The **steepest descent algorithm (gradient descent)**  is a simple and widely us
 
 A **Hessian matrix** is a tool used in optimization to help understand how a function changes in different directions. It's like a table of numbers that tells you how quickly the function is changing. By analyzing the properties of the matrix you can determine whether a function has a maximum or minimum value.
 
-#### 3.1.2 Levenberg-Marquardt method
+#### Newton method
+
+**Newton's** method is an optimization method that uses the inverse of the hessian matrix and gradient to determine the optimal step. This method converges quadratically which is much faster than the steepest descent algorithm. However this can be computationally expensive as this requires the inversion of the Hessian matrix, which can be large and dense in high-dimensional problems. Another problem is that the hessian matrix often has zero eigenvalues which means that one cannot take the inverse of the matrix. Levenberg-Marquardt and quasi-Newton methods are used to overcome these problems.
+
+#### Gauss-Newton method
+
+The Gauss-Netwon method is an extension of the Newton's method, specifically designed for solving nonlinear least squares problems. Instead of using the full Hessian matrix, the method approximates the Hessian matrix by considering only the first-order derivative of the cost function.
+
+#### 3.1.2 Levenberg-Marquardt method (Gauss-Newton method)
 
 The Levenberg-Marquardt algorithm is again a method for training neural networks by minimizing the difference between the predicted outputs and the actual outputs of the training data. The algorithm starts by computing the **Jacobian** matrix, which is a **matrix of partial derivatives** of the outputs. The matrix is used to calculate the gradient of the error which gives the direction of steepest descent for the error.
 
@@ -319,6 +333,10 @@ Occam's razor states that the simplest solution is the most preferred, in the co
 
 The neural network is trained using input data and target data, and the neural network model is represented by interconnected weights. The objective is to minimize the training error while keeping the weights small, which is achieved through an objective function that combines the data error and a weight decay term.
 
+#### Bayesi
+
+In summary, the Bayesian regularization algorithm combines prior knowledge with observed data to estimate the posterior distribution of the model parameters. This enables regularization and provides a principled way to control model complexity and improve generalization performance. By incorporating uncertainty estimation, Bayesian regularization offers a powerful framework for robust and reliable inference in machine learning tasks.
+
 ### Parameters and hyperparameters
 
 ### Levels of inference
@@ -379,6 +397,8 @@ The only learning rule for this that we barely saw in the slides is the **Hebbia
 #### Storage capacity
 
 The storage capacity of associative memory is dependent on the specific type of associative memory being used but in general, the storage capacity of associative memories is limited by the ability to retrieve stored information **without errors**, and by the potential for interference between stored patterns. The means that as the number of stored patterns increases, the chances of overlapping patterns also increase, which can result in false associations.
+
+The formula used to calculate is the storage capacity is: $p_{max} = \frac{N}{4^*log(N)}$
 
 #### Energy function
 
@@ -452,9 +472,9 @@ A well known method for reducing linear dimensionality is **principal component 
 
 **Nonlinear PCA (NLPCA)** is then introduced as an extension of **PCA** that can capture nonlinear relationships between the features.
 
+In the PCA, the eigenvalue of the principal component is equal to the variation. So if we have several principal components we can sum them and divide each one by this total. What we get is the percentage of how much that PC accounts for in the total variation
 
-
-### 4.2 Cluster algorithmsF
+### 4.2 Cluster algorithms
 
 Cluster algorithms are an important class of unsupervised learning methods that aim to group data points based on their proximity to each other using a distance measure. **PCA** that we saw previously may not be bale to detect lower dimensionality in some cases, as adding noise can increase the dimensionality of the data. The **K-means** algorithm is a well-known cluster algorithm that we saw in another course.
 
@@ -660,7 +680,7 @@ There are two reasons for using deep learning
    - ![image-20230410155427567](img/image-20230410155427567.png)
      
 
-   $2^n$ is an astronomically number so in practice we might not be able to create that. Therefore new mathematical theories say we if we added one more hidden layer this amount would be more moderate. So maybe not exponential but rather polynomial. You would need a lot less neurons.
+   $2^n$ is an astronomically large number so in practice we might not be able to create that. Therefore new mathematical theories say we if we added one more hidden layer this amount would be more moderate. So maybe not exponential but rather polynomial. You would need a lot less neurons.
 
 
 
@@ -762,7 +782,7 @@ Convolutional Neural Networks (**CNNs**) are neural nets where the key feature i
 
 **Convolutional layers:**
 
-Convolution layers apply filter to the input image to extract features, such as edges or patterns. Each filter produces a new feature map, which highlights a specific pattern in the input data. The size of the feature map is smaller than the input data, as the filter moves over the input, pixels are shared and produce smaller outputs.
+Convolution layers apply filter or kernel to the input image to extract features, such as edges or patterns. When we apply this filter over the input image we calculate the dot product and then put the output of the dot product unto a feature map. Each filter produces a new feature map, which highlights a specific pattern in the input data. The size of the feature map is smaller than the input data, as the filter moves over the input, pixels are shared and produce smaller outputs.
 
 
 
@@ -799,18 +819,15 @@ Take the learned $8 \times 8$ and convolve them with the larger image. **Pooled*
 
 ### Boltzmann Machines
 
-A Boltzmann machine is an **unsupervised** DL model in which every node is connected to every other node as can be seen below. This, unlike most other neural nets we have previously seen, is thus undirected. It's important note that our Boltzmann is also stochastic because it uses stochastic processes (e.g. Gibbs sampling) to update the states of the nodes. Training of Boltzmann machines is known to be very difficult.
+A Boltzmann machine is an **unsupervised** DL model in which every node is connected to every other node as can be seen below. This, unlike most other neural nets we have previously seen, is thus undirected. It's important note that our Boltzmann is also stochastic because it uses stochastic processes (e.g. Gibbs sampling) to update the states of the nodes. Training of Boltzmann machines is known to be very difficult. This led to the study of restricted Boltzmann machines
 
-Boltzmann machines can also be used in **generative** way, meaning that it can be used to generate new data points. This can be useful in image completion and data generation (Shocker)
+Boltzmann machines can also be used in **generative** way, meaning that it can be used to generate new data points. This can be useful in image completion and data generation 
 
 ![image-20230417140413491](img/image-20230417140413491.png)
 
 #### Restricted Boltzmann Machines (RBM)
 
-Boltzmann machines can be very useful but because each node is connected to every other node and hence the connections grow **exponentially.** This is why we use **RBMs**. The restrictions in the node connections in **RBMs** are as follows:
-
-- Hidden nodes cannot be connected to one another
-- Visible nodes cannot be connected to one another?
+Boltzmann machines can be very useful but because each node is connected to every other node and thus the connections grow **exponentially**. This means that BMs are hard to train. This is why we use **RBMs**. The key characteristic of RBMs is that there are no connections within a layer. 
 
 If we follow these rules we will see we end up with a **bipartite**^1^ structure that only allows connection between the visible layer and the hidden layer. **RBMs** are used in unsupervised learning tasks such as dimensionality reduction, feature learning and collaborative filtering.
 
@@ -822,7 +839,7 @@ If we follow these rules we will see we end up with a **bipartite**^1^ structure
 
 #### Deep Belief Networks (DBN)
 
-In a deep belief networks we are gonna stack several **RBMs** on top each other so that the first RBM outputs are the input to the second RBM and so on. The connections within each layer are undirected (since each layer is an **RBM**). At the same time, the connections between the layers are directed except for the top two layers, the connection between those is undirected. As can be seen below.
+In a deep belief networks we are gonna stack several **RBMs** on top each other so that the first RBM outputs are the input to the second RBM and so on. There are no connections within a layer (since each layer is an **RBM**). At the same time, the connections between the layers are directed except for the top two layers, the connection between those is undirected. As can be seen below. 
 
 ![image-20230417151627139](img/image-20230417151627139.png)
 
@@ -880,10 +897,24 @@ The discriminator network takes in both real and generated data samples and trie
 
 The two networks are trained together in a game-like process where the generator tries to generate more realistic data to fool the discriminator, while the discriminator tries to correctly classify the real and generated data.
 
+#### Wasserstein Generative adversarial network (WGAN)
 
+In a WGAN, the Wasserstein distance is used as a metric to measure the discrepancy or difference between the distribution of real data and the distribution of generated data. It offers a more stable and meaningful measure of distance between distributions. It quantifies the minimum cost required to transform one distribution into another by moving mass from one region to another.
 
 #### Deep convolutional GAN (DCGAN)
 
-A deep convolutional GAN is a type of GAN that uses **convolutional neural networks (CNNs)** to generate realistic images. In this case, the generator network is a **CNN** that takes in random noise as input and outputs a synthetic image. The discriminator network is also a CNN that takes in an image and outputs a probability score indicating whether the image is real or synthetic.
+A deep convolutional GAN is a type of GAN that uses **convolutional neural networks (CNNs)** to generate realistic images. In this case, the generator network is a **CNN** that takes in random noise as input and outputs a synthetic image. The discriminator network is also a CNN that takes in an image and outputs a probability score indicating whether the image is real or fake.
+
+The several convolutional layers in the generator reshapes the input data in a simpler representation so the generator can more easily learn from it. Below you can see how a high level representation is converted into a $64 \times 64$ pixel image. It's important to note that no fully connected or pooling layers are used.
+
+![image-20230612181239332](img/image-20230612181239332.png) 
 
  
+
+
+
+
+
+**Sinkhorn transport** aims to minimize the average cost of transportation between two data distribution.
+
+**Wasserstein or earth mover's transport** aims to minimize the total cost of transportation between two data distributions

@@ -36,6 +36,8 @@
 - **circuit(s)**: holds iff the arcs $v \rightarrow S[v]$ form a **Hamiltonian circuit**: each vertex is visited exactly once.
 - **subcircuit(s)** holds iff circuit($S$') for exactly one possibly empty but non-singleton subarray $S'$ of $S$, and $S[v]=v$ for all the other vertices. 
 - **lex_lesseq(A,B)** holds iff A is lexicographically at most equal to B
+- **increasing(A)** holds iff the array A is in increasing order
+- **count(value, collection):** Counts how many times value is in collection
 
 
 
@@ -61,7 +63,7 @@ In a tournament scheduling: find a permutation of the games to fit into the time
 
 
 
-### Implied constraints
+### Implied/redundant constraints
 
 An implied constraint, also called a redundant constraint, is a constraint that logically follows from other constraints.
 
@@ -122,7 +124,7 @@ Symmetry refers to the existence of redundant or equivalent solutions in a const
 
 **Partial symmetry:** any piecewise permutation preserves solutions. This often occurs in instances. partial symmetry refers to a situation where only a subset of the variables or values in a problem exhibit symmetry.
 
-**Index symmetry:** any permutation of slices of an array of decision variables preserves solutions.
+**Index symmetry:** any permutation of slices of an array of decpreserves solutions: full vs partial row symmetry, column symmetry.
 
 **Conditional or dynamic symmetry:** a symmetry that appears while solving a problem. 
 
@@ -154,9 +156,9 @@ Each CP solver and LCG solver has a default propagator for each available constr
 
 
 
-### Variable selection strategy
+### Variable selection strategy/domain partitioning/ value heuristic
 
-The variable selection strategy has an impact on the size of the search tree, especially of the constraints are processed with propagation at every node of the search tree or if the whole search tree is explored.
+The variable selection strategy has an impact on the size of the search tree, especially if the constraints are processed with propagation at every node of the search tree or if the whole search tree is explored.
 
 **First-fail principle**
 

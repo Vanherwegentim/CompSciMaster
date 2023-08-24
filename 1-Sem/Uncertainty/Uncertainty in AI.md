@@ -67,7 +67,7 @@ $p(x) = \sum_yp(x,y)$
 
 ### Conditional probability and Bayes' rule
 
-**Definition (condition probability)**
+**Definition (conditional probability)**
 
 $p(x|y) \equiv \frac{p(x,y)}{p(y)}$
 
@@ -314,7 +314,7 @@ The Max Likelihood assignment
 
 
 
-**Maximum a posteriori (MAP)** estimation is a method for estimating the para
+**Maximum a posteriori (MAP)** estimation is a method for estimating the parameters
 
 The MAP assignment (mode of posterior)
 
@@ -649,7 +649,61 @@ $P(x_{t+1:T}|x_{0:t})=P(x_{t+1:T}|x_t)$
 
 ### Discrete-state Markov models
 
-a first order Markov chain is a dynamical model in which the following conditional independence
+![image-20230814165955555](img/image-20230814165955555.png)
+
+a first order Markov chain is a dynamical model in which the following conditional independence assumption holds:
+
+$p(x_t|x_{1:t-1})=p(x_t|x_{t-L:t-1})$
+
+- L is the order of the markov chain
+- $x_t = \emptyset$ for $t<1$
+
+
+
+
+
+### Continuous dynamical models
+
+#### Kalman Filter
+
+The Kalman filter is the earliest tractable implementation of the Bayes filter for continuous space. It is popular despite shortcomings.
+
+**Assumptions:**
+
+- Linear Gaussian system
+- Linear Gaussian measurement
+- Prior is Gaussian
+
+**Advantages**
+
+- Simple and efficient
+- Optimality under assumptions
+- Uncertainty on estimate
+
+**Limitations**
+
+- Only suited for linear Gaussian system and measurement models.
+
+
+
+### Particle Filter
+
+**General**
+
+Particle filter recursively constructs particle set $X_t$ from the set $X_{t-1}$
+
+**Advantages**
+
+- No assumptions on posterior density, well-suited to represent complex multimodal beliefs
+
+**Limitations**
+
+- High computational cost
+- Bad scaling to higher dimensions
+
+**Problems**
+
+- Degeneracy problem, particle deprivation/depletion or sample impoverishment: after some iterations all but one particles will have negligible weights.
 
 
 
@@ -657,10 +711,45 @@ a first order Markov chain is a dynamical model in which the following condition
 
 ## Recheck exercises
 
-
-
-- Exercise 4,6,7, exercise session 1
 - Exercise 2.2, exercise session 2
-- All exercises of session 4
-- All exercises of session 5
-- 
+- uitzonderingen die brian zei op sumproduct of max product?
+
+
+
+
+
+
+
+**TB:** $A \indep C | A,D \rightarrow P(B|A,C,D) = P(B|A,D)$
+
+**Bewijs:** 
+$$
+P(B|A,C,D) = \frac{P(A,B,C,D)}{P(A,C,D)}
+=\frac{P(A,B,C,D)}{\sum_BP(A,B,C,D)}\\=\frac{\phi(A,B)\cancel{\phi(A,C)}\cancel{\phi(A,D)}\cancel{\phi(C,D)}\phi(B,D) }{\sum_B\phi(A,B)\cancel{\phi(A,C)}\cancel{\phi(A,D)}\cancel{\phi(C,D)}\phi(B,D) } \\= \frac{\phi(A,B)\phi(B,D)}{\sum_B\phi(A,B)\phi(B,D)} = P(B|A,D)
+$$
+
+
+$\sum_E\gamma_C(B,E,D,G,F=1)$
+
+$\sum_G\gamma_E(B,D,G,F=1)$
+
+$\gamma_GP(B,D,F=1)$
+
+
+
+$\frac{P(B)\sum_{C,E,G}P(C|B)P(E|C,D)P(F=1|E,C)P(G|F=1,C)}{P(B)\sum_{B,C,G,D,E}P(C|B)P(E|C,D)P(F=1|E,C)P(G|F=1,C)} = \frac{\gamma_G(B,D,F)}{\sum_{B,D}\gamma_G(B,D,F)}$
+
+
+
+$\frac{1}{2}$
+
+| P(F_i\|C) | Fair | 2H   | 2T   |      |      |                                                     |
+| --------- | ---- | ---- | ---- | ---- | ---- | --------------------------------------------------- |
+| H         | 0,5  | 1    | 0    |      |      | asdsdasdasdasdasdasdasdasasdasddddddddddddddddddddd |
+| T         | 0.5  | 0    | 1    |      |      |                                                     |
+|           |      |      |      |      |      |                                                     |
+
+$P(C=F|F_1=H,F_2=H,F_3=H) = \frac{P(C=F,F_1=H,F_2=H,F_3=H)}{P(F_1=H,F_2=H,F_3=H)}=\frac{P(F_1=H|C=F)P(F_2=H|C=F)P(F_3=H|C=F)P(C=F)}{\sum_CP(F_1=H|C)P(F_2=H|C)P(F_3=H|C)P(C)} = \frac{(\frac{1}{2})^4}{(\frac{1}{2})^4 + \frac{1}{4}}$
+$$
+P(C=F|F_1=H,F_2=H,F_3=H) = \frac{P(C=F,F_1=H,F_2=H,F_3=H)}{P(F_1=H,F_2=H,F_3=H)}\\=\frac{P(F_1=H|C=F)P(F_2=H|C=F)P(F_3=H|C=F)P(C=F)}{\sum_CP(F_1=H|C)P(F_2=H|C)P(F_3=H|C)P(C)}\\ = \frac{(\frac{1}{2})^4}{(\frac{1}{2})^4 + \frac{1}{4}} = \frac{1}{5}
+$$
