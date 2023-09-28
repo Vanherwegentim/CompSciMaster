@@ -605,11 +605,7 @@ The rest is very technical, I doubt this has to be known.
 
 
 
-#### Particle filtering
 
-particle filters use sequential importance sampling to estimate (averages of) the filtering distribution.
-
-The basic idea behind it is that we assign a weight to each particle based on how well it represents the true state of the system. Once the weights have been assigned, the particles are resampled based on their weights. By focusing the estimation effort on particles that are most likely to represent the true state of the system.
 
 
 
@@ -688,6 +684,10 @@ The Kalman filter is the earliest tractable implementation of the Bayes filter f
 
 ### Particle Filter
 
+particle filters use sequential importance sampling to estimate (averages of) the filtering distribution. Example of a particle filter is a bootstrap filter
+
+The basic idea behind it is that we assign a weight to each particle based on how well it represents the true state of the system. Once the weights have been assigned, the particles are resampled based on their weights. By focusing the estimation effort on particles that are most likely to represent the true state of the system.
+
 **General**
 
 Particle filter recursively constructs particle set $X_t$ from the set $X_{t-1}$
@@ -753,3 +753,12 @@ $P(C=F|F_1=H,F_2=H,F_3=H) = \frac{P(C=F,F_1=H,F_2=H,F_3=H)}{P(F_1=H,F_2=H,F_3=H)
 $$
 P(C=F|F_1=H,F_2=H,F_3=H) = \frac{P(C=F,F_1=H,F_2=H,F_3=H)}{P(F_1=H,F_2=H,F_3=H)}\\=\frac{P(F_1=H|C=F)P(F_2=H|C=F)P(F_3=H|C=F)P(C=F)}{\sum_CP(F_1=H|C)P(F_2=H|C)P(F_3=H|C)P(C)}\\ = \frac{(\frac{1}{2})^4}{(\frac{1}{2})^4 + \frac{1}{4}} = \frac{1}{5}
 $$
+P(p) = P(q) + P(t1) + P(t2) - P(q and t1) - P(q and t2) - P(t1 and t2) + P(q and t1 and t2)
+
+​		= 0.5 + 0.3 + 0.3 - 0.15 - 0.15 - 0.09 + 0.045
+
+​		=	0.755
+
+
+
+$P(p|\neg t1) = P(q) + p(t2) - P(q~ \cap~t2 ) = 0.5 + 0.3 - 0.15 = 0.65$

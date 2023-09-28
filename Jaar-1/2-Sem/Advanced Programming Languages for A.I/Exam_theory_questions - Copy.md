@@ -22,7 +22,9 @@ In a permutation problem, we have as many values as decision variables and each 
 
 **What are implied constraints?**
 
-An implied constraint, also called a redundant constraint, is a constraint that logically follows from other constraints. Benefit: Solving may be faster, without losing any solutions
+An implied constraint, also called a redundant constraint, is a constraint that logically follows from other constraints. 
+
+Benefit: Solving may be faster, without losing any solutions
 
 **What are redundant decision variables?**
 
