@@ -1,0 +1,249 @@
+openapi: 3.0.3
+info:
+  description: Delicious Meal API
+  title: Resto
+  version: v1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: https://swagger.io
+servers:
+- description: Our Local Server
+  url: http://localhost:8080
+tags:
+- description: Everything about our delightful Resto Services
+  name: Resto Service
+paths:
+  /meals:
+    get:
+      description: Find all meals
+      operationId: getMeals
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Meal'
+                type: array
+          description: OK
+        "404":
+          description: No Meals found
+      summary: Retrieve all meals
+      tags:
+      - meals
+      x-accepts: application/json
+    post:
+      description: Add a new meal
+      operationId: addMeal
+      requestBody:
+        content:
+          application/json:
+            example:
+              name: Lasagna de la casa
+              description: Garfield's favorite dish
+              kcal: 2000
+              price: 7
+              mealType: MEAT
+            schema:
+              $ref: '#/components/schemas/MealUpdateRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+          description: OK
+        "201":
+          description: New Meal created
+      summary: Add a new meal
+      tags:
+      - meals
+      x-contentType: application/json
+      x-accepts: application/json
+  /meals/{id}:
+    delete:
+      description: Remove an existing meal
+      operationId: deleteMeal
+      parameters:
+      - description: Id of the meal
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meal'
+          description: OK
+        "401":
+          description: Authentication information is missing or invalid
+          headers:
+            WWW_Authenticate:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "400":
+          description: Invalid Id Supplied
+        "404":
+          description: Meal not found
+      summary: Remove a meal
+      tags:
+      - meals
+      x-accepts: application/json
+    get:
+      description: Get a meal by id description
+      operationId: getMealById
+      parameters:
+      - description: Id of the meal
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meal'
+          description: Found the meal
+        "400":
+          description: Invalid Id Supplied
+        "404":
+          description: Meal not found
+      summary: Get a meal by its id
+      tags:
+      - meals
+      x-accepts: application/json
+    put:
+      description: Update existing meal
+      operationId: updateMeal
+      parameters:
+      - description: Id of the meal
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MealUpdateRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meal'
+          description: OK
+        "400":
+          description: Invalid Id Supplied
+        "404":
+          description: Meal not found
+      summary: Update existing meal
+      tags:
+      - meals
+      x-contentType: application/json
+      x-accepts: application/json
+components:
+  responses:
+    UnauthorizedError:
+      description: Authentication information is missing or invalid
+      headers:
+        WWW_Authenticate:
+          explode: false
+          schema:
+            type: string
+          style: simple
+  schemas:
+    Meal:
+      description: A Delicious meal
+      example:
+        kcal: 0
+        price: price
+        name: name
+        mealType: VEGAN
+        description: description
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        id:
+          description: Unique id of the meal
+          format: uuid
+          type: string
+        name:
+          description: The name of the meal
+          type: string
+        price:
+          description: The price of the meal
+          format: double
+          type: string
+        kcal:
+          description: The energetic value of the meal
+          format: int32
+          type: integer
+        description:
+          description: A description of the meal
+          type: string
+        mealType:
+          description: The type of meal
+          enum:
+          - VEGAN
+          - VEGGIE
+          - MEAT
+          - FISH
+          type: string
+      required:
+      - mealType
+      - name
+      type: object
+    MealUpdateRequest:
+      description: Request body for a meal
+      example:
+        kcal: 0
+        price: price
+        name: name
+        mealType: VEGAN
+        description: description
+      properties:
+        name:
+          description: The name of the meal
+          type: string
+        price:
+          description: The price of the meal
+          format: double
+          type: string
+        kcal:
+          description: The energetic value of the meal
+          format: int32
+          type: integer
+        description:
+          description: A description of the meal
+          type: string
+        mealType:
+          description: The type of meal
+          enum:
+          - VEGAN
+          - VEGGIE
+          - MEAT
+          - FISH
+          type: string
+      required:
+      - mealType
+      - name
+
